@@ -32,3 +32,4 @@ class Symbol(Enum):
     sb_single_quotation = auto()    # '
     sb_double_quotation = auto()    # "
     sb_at = auto()                  # @
+    sb_other = auto()               # [^a-zA-Z0-9]
