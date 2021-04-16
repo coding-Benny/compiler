@@ -1,4 +1,11 @@
 from enum import Enum, auto
+from dataclasses import dataclass
+
+
+@dataclass
+class Token:
+    number: int
+    value: int
 
 
 class TOKEN(Enum):

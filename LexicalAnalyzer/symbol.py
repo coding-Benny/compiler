@@ -1,4 +1,11 @@
 from enum import Enum, auto
+from dataclasses import dataclass
+
+
+@dataclass
+class SymbolTable:
+    szSymbol: str
+    nSymbol: int = 0
 
 
 class SYMBOL(Enum):
