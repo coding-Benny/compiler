@@ -1,7 +1,7 @@
 from enum import Enum, auto
 
 
-class State(Enum):
+class STATE(Enum):
     # start state
     S_start = auto()
     # escape state for escape sequence(in string)
@@ -61,12 +61,12 @@ class State(Enum):
     S_accept_assign2 = auto()           # =
     S_accept_equal = auto()             # ==
     S_accept_not_equal = auto()         # !=
-    S_accept_left_paren = auto()        # (
-    S_accept_right_paren = auto()       # )
-    S_accept_left_brace = auto()        # {
-    S_accept_right_brace = auto()       # }
-    S_accept_left_bracket = auto()      # [
-    S_accept_right_bracket = auto()     # ]
+    S_accept_lparen = auto()            # (
+    S_accept_rparen = auto()            # )
+    S_accept_lbrace = auto()            # {
+    S_accept_rbrace = auto()            # }
+    S_accept_lbracket = auto()          # [
+    S_accept_rbracket = auto()          # ]
     S_accept_comma = auto()             # ,
     S_accept_period = auto()            # .
     S_accept_semicolon = auto()         # ;

@@ -1,7 +1,7 @@
 from enum import Enum, auto
 
 
-class Symbol(Enum):
+class SYMBOL(Enum):
     sb_letter = auto()
     sb_digit = auto()
     sb_equal = auto()               # =
@@ -17,19 +17,19 @@ class Symbol(Enum):
     sb_xor = auto()                 # ^
     sb_tilde = auto()               # ~
     sb_exclamation = auto()         # !
-    sb_left_paren = auto()          # (
-    sb_right_paren = auto()         # )
-    sb_left_brace = auto()          # {
-    sb_right_brace = auto()         # }
-    sb_left_bracket = auto()        # [
-    sb_right_bracket = auto()       # ]
+    sb_lparen = auto()              # (
+    sb_rparen = auto()              # )
+    sb_lbrace = auto()              # {
+    sb_rbrace = auto()              # }
+    sb_lbracket = auto()            # [
+    sb_rbracket = auto()            # ]
     sb_comma = auto()               # ,
     sb_period = auto()              # .
     sb_colon = auto()               # :
     sb_semicolon = auto()           # ;
     sb_hash = auto()                # #
     sb_backslash = auto()           # \
-    sb_single_quotation = auto()    # '
-    sb_double_quotation = auto()    # "
+    sb_single_quot = auto()         # '
+    sb_double_quot = auto()         # "
     sb_at = auto()                  # @
     sb_other = auto()               # [^a-zA-Z0-9]
