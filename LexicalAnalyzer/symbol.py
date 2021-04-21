@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 @dataclass
 class SymbolTable:
-    szSymbol: str
+    szSymbol: list
     nSymbol: int = 0
 
 
