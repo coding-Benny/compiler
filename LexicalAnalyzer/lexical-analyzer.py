@@ -37,19 +37,19 @@ class LexicalAnalyzer:
 
             # Check if it is accepted
             check_acceptance(self, self.currentState)
-            # print('symbol: {}, state: {}, lexeme: {}'.format(current_symbol, self.currentState, self.lexeme))
 
 
 def match_symbol(character):
+    cur_sb = None
     if bool(re.match('[a-zA-Z]', character)):
-        current_symbol = SYMBOL.sb_letter
+        cur_sb = SYMBOL.sb_letter
     elif bool(re.match('[0-9]', character)):
-        current_symbol = SYMBOL.sb_digit
+        cur_sb = SYMBOL.sb_digit
     elif character == '=':
-        current_symbol = SYMBOL.sb_equal
-    else:
-        current_symbol = SYMBOL.sb_other
-    return current_symbol
+        cur_sb = SYMBOL.sb_equal
+    elif bool(re.match('[^0-9a-zA-Z]', character)):
+        cur_sb = SYMBOL.sb_other
+    return cur_sb
 
 
 def check_keyword(self, lexeme: str):
