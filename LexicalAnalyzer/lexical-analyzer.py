@@ -5,16 +5,18 @@ from symbol import *
 import re
 
 token = Token
-my_symbol_table = SymbolTable
+symbol_list = []
+my_symbol_table = SymbolTable(szSymbol=symbol_list)
 
 
 class LexicalAnalyzer:
     def __init__(self):
         self.currentState = STATE.S_start
-        self.finalStates = [STATE.S_accept_id]
+        self.finalStates = [STATE.S_accept_id, STATE.S_accept_equal, STATE.S_accept_decimal]
         self.lexeme = ''
         self.table = {
-            STATE.S_start: {SYMBOL.sb_letter: STATE.S_in_id},
+            STATE.S_start: {SYMBOL.sb_letter: STATE.S_in_id, SYMBOL.sb_digit: STATE.S_accept_decimal,
+                            SYMBOL.sb_equal: STATE.S_accept_equal},
             STATE.S_in_id: {SYMBOL.sb_letter: STATE.S_in_id, SYMBOL.sb_digit: STATE.S_in_id,
                             SYMBOL.sb_other: STATE.S_accept_id},
         }
@@ -26,13 +28,16 @@ class LexicalAnalyzer:
     def progress(self, symbols):
         # State transition for input symbols
         for symbol in symbols:
-            self.lexeme += symbol
+            if self.currentState == STATE.S_start and (symbol == ' ' or symbol == '\n'):
+                continue
             current_symbol = match_symbol(symbol)
+            if current_symbol != SYMBOL.sb_other:
+                self.lexeme += symbol
             self.currentState = self.table[self.currentState][current_symbol]
 
             # Check if it is accepted
             check_acceptance(self, self.currentState)
-            print('symbol: {}, state: {}, lexeme: {}'.format(current_symbol, self.currentState, self.lexeme))
+            # print('symbol: {}, state: {}, lexeme: {}'.format(current_symbol, self.currentState, self.lexeme))
 
 
 def match_symbol(character):
@@ -40,6 +45,8 @@ def match_symbol(character):
         current_symbol = SYMBOL.sb_letter
     elif bool(re.match('[0-9]', character)):
         current_symbol = SYMBOL.sb_digit
+    elif character == '=':
+        current_symbol = SYMBOL.sb_equal
     else:
         current_symbol = SYMBOL.sb_other
     return current_symbol
@@ -54,28 +61,30 @@ def check_keyword(self, lexeme: str):
 
 def insert_symbol_table(lexeme: str):
     for i in range(my_symbol_table.nSymbol):
-        if my_symbol_table.szSymbol[i] != lexeme:
+        if my_symbol_table.szSymbol[i] == lexeme:
             return i
-    my_symbol_table.szSymbol = lexeme[:]
+    my_symbol_table.szSymbol.append(lexeme)
     my_symbol_table.nSymbol += 1
     return my_symbol_table.nSymbol - 1
 
 
 def check_acceptance(self, state: STATE):
     if state in self.finalStates:
-        # Remove 'other' symbol from lexeme.
-        lexeme = self.lexeme[:-1]
-
-        # Check if it is a keyword.
-        key_num = check_keyword(self, lexeme)
-        if key_num:
-            token.number = key_num
+        if state == STATE.S_accept_id:
+            # Check if it is a keyword.
+            key_num = check_keyword(self, self.lexeme)
+            if key_num:
+                token.number = key_num
+            else:
+                token.number = TOKEN.Token_id
+                token.value = insert_symbol_table(self.lexeme)
         else:
-            token.number = TOKEN.Token_id
-            token.value = insert_symbol_table(self.lexeme)
+            token.number = TOKEN.Token_equal
 
-            # Initialize state
+        print(self.lexeme.strip(), state, token.number)
+        # Initialize state
         self.currentState = STATE.S_start
+        self.lexeme = ''
 
 
 def main():
@@ -89,7 +98,7 @@ def main():
 
     # 인자로 넘긴 output file 에 쓰기
     with open(sys.argv[2], "w") as output:
-        output.write('결과')
+        output.write('\n'.join(my_symbol_table.szSymbol))
     output.close()
     print('programmed by JeongHyeon Lee')
 
