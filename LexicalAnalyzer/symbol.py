@@ -64,6 +64,7 @@ class Symbol(Enum):
     sb_double_quot = auto()  # "
     sb_at = auto()  # @
     sb_other = auto()  # [^a-zA-Z0-9]
+    sb_space = auto()
 
 
 symbol_table = SymbolTable()
@@ -80,11 +81,16 @@ def identify_symbol(character, status):
             cur_sb = Symbol.sb_zero
         elif bool(re.match('[1-9]', character)):
             cur_sb = Symbol.sb_number
-    else:
+
+    if status == STATE.S_in_id:  # identifier other
         if bool(re.match('[0-9]', character)):
             cur_sb = Symbol.sb_digit
-    if status == STATE.S_in_id:  # identifier other
         if bool(re.match('[^0-9a-zA-Z]', character)):
+            cur_sb = Symbol.sb_other
+    elif status == STATE.S_in_decimal:
+        if bool(re.match('[0-9]', character)):
+            cur_sb = Symbol.sb_digit
+        elif bool(re.match('[^0-9]', character)):
             cur_sb = Symbol.sb_other
     elif status == STATE.S_in_string1 or status == STATE.S_in_string2:  # string
         if bool(re.match('[^\"\']', character)):
@@ -93,6 +99,9 @@ def identify_symbol(character, status):
             cur_sb = Symbol.sb_single_quot
         elif character == '\"':
             cur_sb = Symbol.sb_double_quot
+    elif status == STATE.S_in_assign or status == STATE.S_in_equal:
+        if character != '=':
+            cur_sb = Symbol.sb_other
     elif character == '+':
         cur_sb = Symbol.sb_plus
     elif character == '-':
@@ -146,7 +155,7 @@ def identify_symbol(character, status):
     elif character == ']':
         cur_sb = Symbol.sb_rbracket
     elif character.isspace():
-        cur_sb = Symbol.sb_other
+        cur_sb = Symbol.sb_space
     return cur_sb
 
 

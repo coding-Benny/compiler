@@ -55,6 +55,7 @@ class TOKEN(Enum):
     Token_period = auto()  # .
     Token_semicolon = auto()  # ;
     Token_comment = auto()  # #
+    Token_space = auto()
 
 
 @dataclass

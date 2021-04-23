@@ -60,7 +60,8 @@ class LexicalAnalyzer:
             STATE.S_accept_period,
             STATE.S_accept_semicolon,
             STATE.S_accept_string1,
-            STATE.S_accept_string2
+            STATE.S_accept_string2,
+            STATE.S_accept_space,
         ]
         self.table = {
             STATE.S_start: {
@@ -94,6 +95,7 @@ class LexicalAnalyzer:
                 Symbol.sb_double_quot: STATE.S_in_string2,
                 Symbol.sb_hash: STATE.S_accept_comment,
                 Symbol.sb_backslash: STATE.S_escape,
+                Symbol.sb_space: STATE.S_accept_space,
             },
             STATE.S_in_id: {
                 Symbol.sb_letter: STATE.S_in_id,
@@ -207,10 +209,15 @@ class LexicalAnalyzer:
             # Check if it is accepted
             check_acceptance(self, self.currentState)
 
+            if current_symbol == Symbol.sb_other:
+                current_symbol = identify_symbol(symbol, self.currentState)
+                self.lexeme += symbol
+                self.currentState = self.table[self.currentState][current_symbol]
+                check_acceptance(self, self.currentState)
+
 
 def check_keyword(self, lexeme: str):
     if lexeme in self.keywords:
-        print('lexeme {} is in keywords!!!'.format(lexeme))
         return self.keywords.index(lexeme)
     return None
 
@@ -329,6 +336,8 @@ def check_acceptance(self, state: STATE):
         elif state == STATE.S_accept_string2:
             token.set_token(TOKEN.Token_string2)
             insert_literal_table(self.lexeme)
+        elif state == STATE.S_accept_space:
+            token.set_token(TOKEN.Token_space)
 
         token_table.add_token(token)
         print(self.lexeme, state, token.get_token())

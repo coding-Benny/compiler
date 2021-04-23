@@ -82,3 +82,4 @@ class STATE(Enum):
     S_accept_period = auto()                # .
     S_accept_semicolon = auto()             # ;
     S_accept_comment = auto()               # #
+    S_accept_space = auto()
