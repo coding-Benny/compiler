@@ -117,6 +117,7 @@ def match_symbol(character, status):
         cur_sb = SYMBOL.sb_other
     return cur_sb
 
+
 def insert_symbol_table(lexeme: str):
     for i in range(my_symbol_table.nSymbol):
         if my_symbol_table.szSymbol[i] == lexeme:
