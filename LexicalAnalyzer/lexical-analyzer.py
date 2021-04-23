@@ -1,12 +1,9 @@
 import sys
-from state import *
-from my_token import *
 from symbol import *
-import re
+from my_token import *
+
 
 token = Token
-symbol_list = []
-my_symbol_table = SymbolTable(szSymbol=symbol_list)
 
 
 class LexicalAnalyzer:
@@ -206,90 +203,11 @@ class LexicalAnalyzer:
             check_acceptance(self, self.currentState)
 
 
-def match_symbol(character, status):
-    cur_sb = None
-
-    if bool(re.match('[a-zA-Z]', character)):
-        cur_sb = SYMBOL.sb_letter
-    elif bool(re.match('[0-9]', character)):
-        cur_sb = SYMBOL.sb_digit
-    if status == STATE.S_in_id:  # identifier other
-        if bool(re.match('[^0-9a-zA-Z]', character)):
-            cur_sb = SYMBOL.sb_other
-    elif status == STATE.S_in_string1 or status == STATE.S_in_string2:  # string
-        if bool(re.match('[^\"\']', character)):
-            cur_sb = SYMBOL.sb_letter
-    elif character == '+':
-        cur_sb = SYMBOL.sb_plus
-    elif character == '-':
-        cur_sb = SYMBOL.sb_minus
-    elif character == '*':
-        cur_sb = SYMBOL.sb_multiplication
-    elif character == '/':
-        cur_sb = SYMBOL.sb_division
-    elif character == '%':
-        cur_sb = SYMBOL.sb_modulus
-    elif character == '=':
-        cur_sb = SYMBOL.sb_equal
-    elif character == '>':
-        cur_sb = SYMBOL.sb_greater
-    elif character == '<':
-        cur_sb = SYMBOL.sb_less
-    elif character == '&':
-        cur_sb = SYMBOL.sb_and
-    elif character == '|':
-        cur_sb = SYMBOL.sb_or
-    elif character == '^':
-        cur_sb = SYMBOL.sb_xor
-    elif character == '~':
-        cur_sb = SYMBOL.sb_tilde
-    elif character == ':':
-        cur_sb = SYMBOL.sb_colon
-    elif character == ';':
-        cur_sb = SYMBOL.sb_semicolon
-    elif character == '!':
-        cur_sb = SYMBOL.sb_exclamation
-    elif character == '@':
-        cur_sb = SYMBOL.sb_at
-    elif character == '.':
-        cur_sb = SYMBOL.sb_period
-    elif character == ',':
-        cur_sb = SYMBOL.sb_comma
-    elif character == '\'':
-        cur_sb = SYMBOL.sb_single_quot
-    elif character == '\"':
-        cur_sb = SYMBOL.sb_double_quot
-    elif character == '(':
-        cur_sb = SYMBOL.sb_lparen
-    elif character == ')':
-        cur_sb = SYMBOL.sb_rparen
-    elif character == '{':
-        cur_sb = SYMBOL.sb_lbrace
-    elif character == '}':
-        cur_sb = SYMBOL.sb_rbrace
-    elif character == '[':
-        cur_sb = SYMBOL.sb_lbracket
-    elif character == ']':
-        cur_sb = SYMBOL.sb_rbracket
-    elif character.isspace():
-        cur_sb = SYMBOL.sb_other
-    return cur_sb
-
-
 def check_keyword(self, lexeme: str):
     if lexeme in self.keywords:
         print('lexeme {} is in keywords!!!'.format(lexeme))
         return self.keywords.index(lexeme)
     return None
-
-
-def insert_symbol_table(lexeme: str):
-    for i in range(my_symbol_table.nSymbol):
-        if my_symbol_table.szSymbol[i] == lexeme:
-            return i
-    my_symbol_table.szSymbol.append(lexeme)
-    my_symbol_table.nSymbol += 1
-    return my_symbol_table.nSymbol - 1
 
 
 def check_acceptance(self, state: STATE):
