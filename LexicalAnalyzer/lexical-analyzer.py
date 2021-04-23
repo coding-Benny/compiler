@@ -195,9 +195,9 @@ class LexicalAnalyzer:
     def progress(self, symbols):
         # State transition for input symbols
         for symbol in symbols:
-            if self.currentState == STATE.S_start and (symbol == ' ' or symbol == '\n'):
+            if self.currentState == STATE.S_start and symbol.isspace():
                 continue
-            current_symbol = match_symbol(symbol)
+            current_symbol = match_symbol(symbol, self.currentState)
             if current_symbol != SYMBOL.sb_other:
                 self.lexeme += symbol
             self.currentState = self.table[self.currentState][current_symbol]
@@ -206,12 +206,19 @@ class LexicalAnalyzer:
             check_acceptance(self, self.currentState)
 
 
-def match_symbol(character):
+def match_symbol(character, status):
     cur_sb = None
+
     if bool(re.match('[a-zA-Z]', character)):
         cur_sb = SYMBOL.sb_letter
     elif bool(re.match('[0-9]', character)):
         cur_sb = SYMBOL.sb_digit
+    if status == STATE.S_in_id:  # identifier other
+        if bool(re.match('[^0-9a-zA-Z]', character)):
+            cur_sb = SYMBOL.sb_other
+    elif status == STATE.S_in_string1 or status == STATE.S_in_string2:  # string
+        if bool(re.match('[^\"\']', character)):
+            cur_sb = SYMBOL.sb_letter
     elif character == '+':
         cur_sb = SYMBOL.sb_plus
     elif character == '-':
@@ -264,7 +271,7 @@ def match_symbol(character):
         cur_sb = SYMBOL.sb_lbracket
     elif character == ']':
         cur_sb = SYMBOL.sb_rbracket
-    elif bool(re.match('[^0-9a-zA-Z]', character)):
+    elif character.isspace():
         cur_sb = SYMBOL.sb_other
     return cur_sb
 
@@ -295,8 +302,100 @@ def check_acceptance(self, state: STATE):
             else:
                 token.number = TOKEN.Token_id
                 token.value = insert_symbol_table(self.lexeme)
-        else:
+        elif state == STATE.S_accept_equal:
             token.number = TOKEN.Token_equal
+        elif state == STATE.S_accept_decimal:
+            token.number = TOKEN.Token_decimal
+        elif state == STATE.S_accept_plus:
+            token.number = TOKEN.Token_plus
+        elif state == STATE.S_accept_add_assign:
+            token.number = TOKEN.Token_add_assign
+        elif state == STATE.S_accept_minus:
+            token.number = TOKEN.Token_minus
+        elif state == STATE.S_accept_sub_assign:
+            token.number = TOKEN.Token_sub_assign
+        elif state == STATE.S_accept_func_annotation:
+            token.number = TOKEN.Token_func_annotation
+        elif state == STATE.S_accept_mult:
+            token.number = TOKEN.Token_mult
+        elif state == STATE.S_accept_mult_assign:
+            token.number = TOKEN.Token_mult_assign
+        elif state == STATE.S_accept_exp:
+            token.number = TOKEN.Token_exp
+        elif state == STATE.S_accept_exp_assign:
+            token.number = TOKEN.Token_exp_assign
+        elif state == STATE.S_accept_div:
+            token.number = TOKEN.Token_div
+        elif state == STATE.S_accept_div_assign:
+            token.number = TOKEN.Token_div_assign
+        elif state == STATE.S_accept_floor_div:
+            token.number = TOKEN.Token_floor_div
+        elif state == STATE.S_accept_floor_div_assign:
+            token.number = TOKEN.Token_floor_div_assign
+        elif state == STATE.S_accept_modulus:
+            token.number = TOKEN.Token_modulus
+        elif state == STATE.S_accept_modulus_assign:
+            token.number = TOKEN.Token_modulus_assign
+        elif state == STATE.S_accept_less:
+            token.number = TOKEN.Token_less
+        elif state == STATE.S_accept_less_equal:
+            token.number = TOKEN.Token_less_equal
+        elif state == STATE.S_accept_left_shift:
+            token.number = TOKEN.Token_left_shift
+        elif state == STATE.S_accept_left_shift_assign:
+            token.number = TOKEN.Token_left_shift_assign
+        elif state == STATE.S_accept_greater:
+            token.number = TOKEN.Token_greater
+        elif state == STATE.S_accept_greater_equal:
+            token.number = TOKEN.Token_greater_equal
+        elif state == STATE.S_accept_right_shift:
+            token.number = TOKEN.Token_right_shift
+        elif state == STATE.S_accept_right_shift_assign:
+            token.number = TOKEN.Token_right_shift_assign
+        elif state == STATE.S_accept_and:
+            token.number = TOKEN.Token_and
+        elif state == STATE.S_accept_and_assignment:
+            token.number = TOKEN.Token_and_assign
+        elif state == STATE.S_accept_or:
+            token.number = TOKEN.Token_or
+        elif state == STATE.S_accept_or_assignment:
+            token.number = TOKEN.Token_or_assign
+        elif state == STATE.S_accept_xor:
+            token.number = TOKEN.Token_xor
+        elif state == STATE.S_accept_xor_assignment:
+            token.number = TOKEN.Token_xor_assign
+        elif state == STATE.S_accept_not:
+            token.number = TOKEN.Token_not
+        elif state == STATE.S_accept_colon:
+            token.number = TOKEN.Token_colon
+        elif state == STATE.S_accept_assign1:
+            token.number = TOKEN.Token_assign1
+        elif state == STATE.S_accept_assign2:
+            token.number = TOKEN.Token_assign2
+        elif state == STATE.S_accept_not_equal:
+            token.number = TOKEN.Token_not_equal
+        elif state == STATE.S_accept_lparen:
+            token.number = TOKEN.Token_left_paren
+        elif state == STATE.S_accept_rparen:
+            token.number = TOKEN.Token_right_paren
+        elif state == STATE.S_accept_lbrace:
+            token.number = TOKEN.Token_left_brace
+        elif state == STATE.S_accept_rbrace:
+            token.number = TOKEN.Token_right_brace
+        elif state == STATE.S_accept_lbracket:
+            token.number = TOKEN.Token_left_bracket
+        elif state == STATE.S_accept_rbracket:
+            token.number = TOKEN.Token_right_bracket
+        elif state == STATE.S_accept_comma:
+            token.number = TOKEN.Token_comma
+        elif state == STATE.S_accept_period:
+            token.number = TOKEN.Token_period
+        elif state == STATE.S_accept_semicolon:
+            token.number = TOKEN.Token_semicolon
+        elif state == STATE.S_accept_string1:
+            token.number = TOKEN.Token_string1
+        elif state == STATE.S_accept_string2:
+            token.number = TOKEN.Token_string2
 
         print(self.lexeme.strip(), state, token.number)
         # Initialize state
