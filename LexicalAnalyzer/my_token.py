@@ -2,12 +2,6 @@ from enum import Enum, auto
 from dataclasses import dataclass
 
 
-@dataclass
-class Token:
-    number: int
-    value: int
-
-
 class TOKEN(Enum):
     Token_id = auto()
     Token_decimal = auto()
@@ -61,3 +55,44 @@ class TOKEN(Enum):
     Token_period = auto()  # .
     Token_semicolon = auto()  # ;
     Token_comment = auto()  # #
+
+
+@dataclass
+class Token:
+    def __init__(self):
+        self.__number: int = 0
+        self.__value: int = 0
+
+    def set_token(self, n: TOKEN):
+        self.__number = n
+
+    def set_token_value(self, v: int):
+        self.__value = v
+
+    def get_token(self):
+        return self.__number
+
+    def get_token_value(self):
+        return self.__value
+
+
+@dataclass
+class TokenTable:
+    def __init__(self):
+        self.__pToken: list = []
+        self.__nToken: int = 0
+
+    def add_token(self, p: Token):
+        self.__pToken.append(p)
+        self.__nToken += 1
+
+    def number_of_tokens(self):
+        return self.__nToken
+
+    def get_all_tokens(self):
+        res = ''
+        for token in self.__pToken:
+            if not token.get_token_value():
+                token.set_token_value('-')
+            res += '({}, {})\n'.format(token.get_token(), token.get_token_value())
+        return res

@@ -8,6 +8,7 @@ class STATE(Enum):
     S_escape = auto()                       # \
     # processing states
     S_in_id = auto()
+    S_in_decimal = auto()
     S_in_hex = auto()
     S_in_string1 = auto()                   # '
     S_in_string2 = auto()                   # "
