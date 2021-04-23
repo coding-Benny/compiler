@@ -14,7 +14,8 @@ class TOKEN(Enum):
     Token_zero = auto()
     Token_octal = auto()
     Token_hex = auto()
-    Token_string = auto()
+    Token_string1 = auto()
+    Token_string2 = auto()
     Token_plus = auto()  # +
     Token_add_assign = auto()  # +=
     Token_minus = auto()  # -
@@ -33,11 +34,16 @@ class TOKEN(Enum):
     Token_less = auto()  # <
     Token_less_equal = auto()  # <=
     Token_left_shift = auto()  # <<
+    Token_left_shift_assign = auto()  # <<=
     Token_greater = auto()  # >
     Token_greater_equal = auto()  # >=
     Token_right_shift = auto()  # >>
+    Token_right_shift_assign = auto()  # >>=
+    Token_and = auto()  # &
     Token_and_assign = auto()  # &=
+    Token_or = auto()  # |
     Token_or_assign = auto()  # \=
+    Token_xor = auto()  # ^
     Token_xor_assign = auto()  # ^=
     Token_not = auto()  # ~
     Token_colon = auto()  # :
