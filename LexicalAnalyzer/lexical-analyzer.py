@@ -9,184 +9,184 @@ value_cnt = 1
 
 class LexicalAnalyzer:
     def __init__(self):
-        self.currentState = STATE.S_start
+        self.currentState = State.START
         self.lexeme = ''
         self.finalStates = [
-            STATE.S_accept_id,
-            STATE.S_accept_equal,
-            STATE.S_accept_zero,
-            STATE.S_accept_decimal,
-            STATE.S_accept_plus,
-            STATE.S_accept_add_assign,
-            STATE.S_accept_minus,
-            STATE.S_accept_sub_assign,
-            STATE.S_accept_func_annotation,
-            STATE.S_accept_mult,
-            STATE.S_accept_mult_assign,
-            STATE.S_accept_exp,
-            STATE.S_accept_exp_assign,
-            STATE.S_accept_div,
-            STATE.S_accept_div_assign,
-            STATE.S_accept_floor_div,
-            STATE.S_accept_floor_div_assign,
-            STATE.S_accept_modulus,
-            STATE.S_accept_modulus_assign,
-            STATE.S_accept_less,
-            STATE.S_accept_less_equal,
-            STATE.S_accept_left_shift,
-            STATE.S_accept_left_shift_assign,
-            STATE.S_accept_greater,
-            STATE.S_accept_greater_equal,
-            STATE.S_accept_right_shift,
-            STATE.S_accept_right_shift_assign,
-            STATE.S_accept_and,
-            STATE.S_accept_and_assignment,
-            STATE.S_accept_or,
-            STATE.S_accept_or_assignment,
-            STATE.S_accept_xor,
-            STATE.S_accept_xor_assignment,
-            STATE.S_accept_not,
-            STATE.S_accept_colon,
-            STATE.S_accept_assign1,
-            STATE.S_accept_assign2,
-            STATE.S_accept_not_equal,
-            STATE.S_accept_lparen,
-            STATE.S_accept_rparen,
-            STATE.S_accept_lbrace,
-            STATE.S_accept_rbrace,
-            STATE.S_accept_lbracket,
-            STATE.S_accept_rbracket,
-            STATE.S_accept_comma,
-            STATE.S_accept_period,
-            STATE.S_accept_semicolon,
-            STATE.S_accept_string1,
-            STATE.S_accept_string2,
-            STATE.S_accept_space,
+            State.ACCEPT_ID,
+            State.ACCEPT_EQUAL,
+            State.ACCEPT_ZERO,
+            State.ACCEPT_DECIMAL,
+            State.ACCEPT_PLUS,
+            State.ACCEPT_ADD_ASSIGNMENT,
+            State.ACCEPT_MINUS,
+            State.ACCEPT_SUB_ASSIGNMENT,
+            State.ACCEPT_FUNC_ANNOTATION,
+            State.ACCEPT_MULTIPLICATION,
+            State.ACCEPT_MULTIPLICATION_ASSIGNMENT,
+            State.ACCEPT_EXP,
+            State.ACCEPT_EXP_ASSIGNMENT,
+            State.ACCEPT_DIVISION,
+            State.ACCEPT_DIVISION_ASSIGNMENT,
+            State.ACCEPT_FLOOR_DIV,
+            State.ACCEPT_FLOOR_DIV_ASSIGNMENT,
+            State.ACCEPT_MODULUS,
+            State.ACCEPT_MODULUS_ASSIGNMENT,
+            State.ACCEPT_LESS,
+            State.ACCEPT_LESS_EQUAL,
+            State.ACCEPT_LSHIFT,
+            State.ACCEPT_LSHIFT_ASSIGNMENT,
+            State.ACCEPT_GREATER,
+            State.ACCEPT_GREATER_EQUAL,
+            State.ACCEPT_RSHIFT,
+            State.ACCEPT_RSHIFT_ASSIGNMENT,
+            State.ACCEPT_AND,
+            State.ACCEPT_AND_ASSIGNMENT,
+            State.ACCEPT_OR,
+            State.ACCEPT_OR_ASSIGNMENT,
+            State.ACCEPT_XOR,
+            State.ACCEPT_XOR_ASSIGNMENT,
+            State.ACCEPT_NOT,
+            State.ACCEPT_COLON,
+            State.ACCEPT_ASSIGNMENT1,
+            State.ACCEPT_ASSIGNMENT2,
+            State.ACCEPT_NOT_EQUAL,
+            State.ACCEPT_LPAREN,
+            State.ACCEPT_RPAREN,
+            State.ACCEPT_LBRACE,
+            State.ACCEPT_RBRACE,
+            State.ACCEPT_LBRACKET,
+            State.ACCEPT_RBRACKET,
+            State.S_accept_comma,
+            State.ACCEPT_PERIOD,
+            State.ACCEPT_SEMICOLON,
+            State.ACCEPT_STRING1,
+            State.ACCEPT_STRING2,
+            State.ACCEPT_SPACE,
         ]
         self.table = {
-            STATE.S_start: {
-                Symbol.sb_letter: STATE.S_in_id,
-                Symbol.sb_zero: STATE.S_accept_zero,
-                Symbol.sb_number: STATE.S_in_decimal,
-                Symbol.sb_equal: STATE.S_in_equal,
-                Symbol.sb_plus: STATE.S_in_plus,
-                Symbol.sb_minus: STATE.S_in_minus,
-                Symbol.sb_multiplication: STATE.S_in_multiplication,
-                Symbol.sb_division: STATE.S_in_division,
-                Symbol.sb_modulus: STATE.S_in_modulus,
-                Symbol.sb_less: STATE.S_in_less,
-                Symbol.sb_greater: STATE.S_in_greater,
-                Symbol.sb_and: STATE.S_in_and,
-                Symbol.sb_or: STATE.S_in_or,
-                Symbol.sb_xor: STATE.S_in_xor,
-                Symbol.sb_tilde: STATE.S_accept_not,
-                Symbol.sb_colon: STATE.S_in_assign,
-                Symbol.sb_exclamation: STATE.S_in_not,
-                Symbol.sb_lparen: STATE.S_accept_lparen,
-                Symbol.sb_rparen: STATE.S_accept_rparen,
-                Symbol.sb_lbrace: STATE.S_accept_lbrace,
-                Symbol.sb_rbrace: STATE.S_accept_rbrace,
-                Symbol.sb_lbracket: STATE.S_accept_lbracket,
-                Symbol.sb_rbracket: STATE.S_accept_rbracket,
-                Symbol.sb_comma: STATE.S_accept_comma,
-                Symbol.sb_period: STATE.S_accept_period,
-                Symbol.sb_semicolon: STATE.S_accept_semicolon,
-                Symbol.sb_single_quot: STATE.S_in_string1,
-                Symbol.sb_double_quot: STATE.S_in_string2,
-                Symbol.sb_hash: STATE.S_accept_comment,
-                Symbol.sb_backslash: STATE.S_escape,
-                Symbol.sb_space: STATE.S_accept_space,
+            State.START: {
+                Symbol.LETTER: State.IN_ID,
+                Symbol.ZERO: State.ACCEPT_ZERO,
+                Symbol.NUMBER: State.IN_DECIMAL,
+                Symbol.EQUAL: State.IN_EQUAL,
+                Symbol.PLUS: State.IN_PLUS,
+                Symbol.MINUS: State.IN_MINUS,
+                Symbol.MULTIPLICATION: State.IN_MULTIPLICATION,
+                Symbol.DIVISION: State.IN_DIVISION,
+                Symbol.MODULUS: State.IN_MODULUS,
+                Symbol.LESS: State.IN_LESS,
+                Symbol.GREATER: State.IN_GREATER,
+                Symbol.AMPERSAND: State.IN_AND,
+                Symbol.PIPE: State.IN_OR,
+                Symbol.CARET: State.IN_XOR,
+                Symbol.TILDE: State.ACCEPT_NOT,
+                Symbol.COLON: State.IN_ASSIGNMENT,
+                Symbol.BANG: State.IN_NOT,
+                Symbol.LPAREN: State.ACCEPT_LPAREN,
+                Symbol.RPAREN: State.ACCEPT_RPAREN,
+                Symbol.LBRACE: State.ACCEPT_LBRACE,
+                Symbol.RBRACE: State.ACCEPT_RBRACE,
+                Symbol.LBRACKET: State.ACCEPT_LBRACKET,
+                Symbol.RBRACKET: State.ACCEPT_RBRACKET,
+                Symbol.COMMA: State.S_accept_comma,
+                Symbol.PERIOD: State.ACCEPT_PERIOD,
+                Symbol.SEMICOLON: State.ACCEPT_SEMICOLON,
+                Symbol.SINGLE_QUOT: State.IN_STRING1,
+                Symbol.DOUBLE_QUOT: State.IN_STRING2,
+                Symbol.HASH: State.ACCEPT_COMMENT,
+                Symbol.BACKSLASH: State.ESCAPE,
+                Symbol.SPACE: State.ACCEPT_SPACE,
             },
-            STATE.S_in_id: {
-                Symbol.sb_letter: STATE.S_in_id,
-                Symbol.sb_digit: STATE.S_in_id,
-                Symbol.sb_other: STATE.S_accept_id
+            State.IN_ID: {
+                Symbol.LETTER: State.IN_ID,
+                Symbol.DIGIT: State.IN_ID,
+                Symbol.OTHER: State.ACCEPT_ID
             },
-            STATE.S_in_decimal: {
-                Symbol.sb_digit: STATE.S_in_decimal,
-                Symbol.sb_other: STATE.S_accept_decimal
+            State.IN_DECIMAL: {
+                Symbol.DIGIT: State.IN_DECIMAL,
+                Symbol.OTHER: State.ACCEPT_DECIMAL
             },
-            STATE.S_in_plus: {  # +
-                Symbol.sb_equal: STATE.S_accept_add_assign,  # +=
-                Symbol.sb_other: STATE.S_accept_plus  # +
+            State.IN_PLUS: {  # +
+                Symbol.EQUAL: State.ACCEPT_ADD_ASSIGNMENT,  # +=
+                Symbol.OTHER: State.ACCEPT_PLUS  # +
             },
-            STATE.S_in_minus: {  # -
-                Symbol.sb_equal: STATE.S_accept_sub_assign,  # -=
-                Symbol.sb_greater: STATE.S_accept_func_annotation,  # ->
-                Symbol.sb_other: STATE.S_accept_minus  # -
+            State.IN_MINUS: {  # -
+                Symbol.EQUAL: State.ACCEPT_SUB_ASSIGNMENT,  # -=
+                Symbol.GREATER: State.ACCEPT_FUNC_ANNOTATION,  # ->
+                Symbol.OTHER: State.ACCEPT_MINUS  # -
             },
-            STATE.S_in_multiplication: {  # *
-                Symbol.sb_multiplication: STATE.S_in_exp,  # **
-                Symbol.sb_equal: STATE.S_accept_mult_assign,  # *=
-                Symbol.sb_other: STATE.S_accept_mult  # *
+            State.IN_MULTIPLICATION: {  # *
+                Symbol.MULTIPLICATION: State.IN_EXP,  # **
+                Symbol.EQUAL: State.ACCEPT_MULTIPLICATION_ASSIGNMENT,  # *=
+                Symbol.OTHER: State.ACCEPT_MULTIPLICATION  # *
             },
-            STATE.S_in_exp: {  # **
-                Symbol.sb_equal: STATE.S_accept_exp_assign,  # **=
-                Symbol.sb_other: STATE.S_accept_exp  # **
+            State.IN_EXP: {  # **
+                Symbol.EQUAL: State.ACCEPT_EXP_ASSIGNMENT,  # **=
+                Symbol.OTHER: State.ACCEPT_EXP  # **
             },
-            STATE.S_in_division: {  # /
-                Symbol.sb_division: STATE.S_in_floor_div,  # //
-                Symbol.sb_equal: STATE.S_accept_div_assign,  # /=
-                Symbol.sb_other: STATE.S_accept_div  # /
+            State.IN_DIVISION: {  # /
+                Symbol.DIVISION: State.IN_FLOOR_DIV,  # //
+                Symbol.EQUAL: State.ACCEPT_DIVISION_ASSIGNMENT,  # /=
+                Symbol.OTHER: State.ACCEPT_DIVISION  # /
             },
-            STATE.S_in_floor_div: {  # //
-                Symbol.sb_equal: STATE.S_accept_floor_div_assign,  # //=
-                Symbol.sb_other: STATE.S_accept_floor_div  # //
+            State.IN_FLOOR_DIV: {  # //
+                Symbol.EQUAL: State.ACCEPT_FLOOR_DIV_ASSIGNMENT,  # //=
+                Symbol.OTHER: State.ACCEPT_FLOOR_DIV  # //
             },
-            STATE.S_in_modulus: {  # %
-                Symbol.sb_equal: STATE.S_accept_modulus_assign,  # %=
-                Symbol.sb_other: STATE.S_accept_modulus  # %
+            State.IN_MODULUS: {  # %
+                Symbol.EQUAL: State.ACCEPT_MODULUS_ASSIGNMENT,  # %=
+                Symbol.OTHER: State.ACCEPT_MODULUS  # %
             },
-            STATE.S_in_less: {  # <
-                Symbol.sb_less: STATE.S_in_left_shift,  # <<
-                Symbol.sb_equal: STATE.S_accept_less_equal,  # <=
-                Symbol.sb_other: STATE.S_accept_less  # <
+            State.IN_LESS: {  # <
+                Symbol.LESS: State.IN_LSHIFT,  # <<
+                Symbol.EQUAL: State.ACCEPT_LESS_EQUAL,  # <=
+                Symbol.OTHER: State.ACCEPT_LESS  # <
             },
-            STATE.S_in_left_shift: {  # <<
-                Symbol.sb_equal: STATE.S_accept_left_shift_assign,  # <<=
-                Symbol.sb_other: STATE.S_accept_left_shift  # <<
+            State.IN_LSHIFT: {  # <<
+                Symbol.EQUAL: State.ACCEPT_LSHIFT_ASSIGNMENT,  # <<=
+                Symbol.OTHER: State.ACCEPT_LSHIFT  # <<
             },
-            STATE.S_in_greater: {  # >
-                Symbol.sb_greater: STATE.S_in_right_shift,  # >>
-                Symbol.sb_equal: STATE.S_accept_greater_equal,  # >=
-                Symbol.sb_other: STATE.S_accept_greater  # >
+            State.IN_GREATER: {  # >
+                Symbol.GREATER: State.IN_RSHIFT,  # >>
+                Symbol.EQUAL: State.ACCEPT_GREATER_EQUAL,  # >=
+                Symbol.OTHER: State.ACCEPT_GREATER  # >
             },
-            STATE.S_in_right_shift: {  # >>
-                Symbol.sb_equal: STATE.S_accept_right_shift_assign,  # >>=
-                Symbol.sb_other: STATE.S_accept_right_shift  # >>
+            State.IN_RSHIFT: {  # >>
+                Symbol.EQUAL: State.ACCEPT_RSHIFT_ASSIGNMENT,  # >>=
+                Symbol.OTHER: State.ACCEPT_RSHIFT  # >>
             },
-            STATE.S_in_and: {  # &
-                Symbol.sb_equal: STATE.S_accept_and_assignment,  # &=
-                Symbol.sb_other: STATE.S_accept_and  # &
+            State.IN_AND: {  # &
+                Symbol.EQUAL: State.ACCEPT_AND_ASSIGNMENT,  # &=
+                Symbol.OTHER: State.ACCEPT_AND  # &
             },
-            STATE.S_in_or: {  # |
-                Symbol.sb_equal: STATE.S_accept_or_assignment,  # |=
-                Symbol.sb_other: STATE.S_accept_or  # |
+            State.IN_OR: {  # |
+                Symbol.EQUAL: State.ACCEPT_OR_ASSIGNMENT,  # |=
+                Symbol.OTHER: State.ACCEPT_OR  # |
             },
-            STATE.S_in_xor: {
-                Symbol.sb_equal: STATE.S_accept_xor_assignment,  # ^=
-                Symbol.sb_other: STATE.S_accept_xor  # ^
+            State.IN_XOR: {
+                Symbol.EQUAL: State.ACCEPT_XOR_ASSIGNMENT,  # ^=
+                Symbol.OTHER: State.ACCEPT_XOR  # ^
             },
-            STATE.S_in_assign: {  # :
-                Symbol.sb_equal: STATE.S_accept_assign1,  # :=
-                Symbol.sb_other: STATE.S_accept_colon  # :
+            State.IN_ASSIGNMENT: {  # :
+                Symbol.EQUAL: State.ACCEPT_ASSIGNMENT1,  # :=
+                Symbol.OTHER: State.ACCEPT_COLON  # :
             },
-            STATE.S_in_equal: {  # =
-                Symbol.sb_equal: STATE.S_accept_equal,  # ==
-                Symbol.sb_other: STATE.S_accept_assign2  # =
+            State.IN_EQUAL: {  # =
+                Symbol.EQUAL: State.ACCEPT_EQUAL,  # ==
+                Symbol.OTHER: State.ACCEPT_ASSIGNMENT2  # =
             },
-            STATE.S_in_not: {  # !
-                Symbol.sb_equal: STATE.S_accept_not_equal  # !=
+            State.IN_NOT: {  # !
+                Symbol.EQUAL: State.ACCEPT_NOT_EQUAL  # !=
             },
-            STATE.S_in_string1: {
-                Symbol.sb_letter: STATE.S_in_string1,
-                Symbol.sb_other: STATE.S_in_string1,
-                Symbol.sb_single_quot: STATE.S_accept_string1
+            State.IN_STRING1: {
+                Symbol.LETTER: State.IN_STRING1,
+                Symbol.OTHER: State.IN_STRING1,
+                Symbol.SINGLE_QUOT: State.ACCEPT_STRING1
             },
-            STATE.S_in_string2: {
-                Symbol.sb_letter: STATE.S_in_string2,
-                Symbol.sb_other: STATE.S_in_string2,
-                Symbol.sb_double_quot: STATE.S_accept_string2
+            State.IN_STRING2: {
+                Symbol.LETTER: State.IN_STRING2,
+                Symbol.OTHER: State.IN_STRING2,
+                Symbol.DOUBLE_QUOT: State.ACCEPT_STRING2
             }
         }
         self.keywords = [
@@ -199,17 +199,17 @@ class LexicalAnalyzer:
     def progress(self, symbols):
         # State transition for input symbols
         for symbol in symbols:
-            if self.currentState == STATE.S_start and symbol.isspace():
+            if self.currentState == State.START and symbol.isspace():
                 continue
             current_symbol = identify_symbol(symbol, self.currentState)
-            if current_symbol != Symbol.sb_other:
+            if current_symbol != Symbol.OTHER:
                 self.lexeme += symbol
             self.currentState = self.table[self.currentState][current_symbol]
 
             # Check if it is accepted
             check_acceptance(self, self.currentState)
 
-            if current_symbol == Symbol.sb_other:
+            if current_symbol == Symbol.OTHER:
                 current_symbol = identify_symbol(symbol, self.currentState)
                 self.lexeme += symbol
                 self.currentState = self.table[self.currentState][current_symbol]
@@ -222,127 +222,127 @@ def check_keyword(self, lexeme: str):
     return None
 
 
-def check_acceptance(self, state: STATE):
+def check_acceptance(self, state: State):
     if state in self.finalStates:
-        token = Token()
-        if state == STATE.S_accept_id:
+        token = MyToken()
+        if state == State.ACCEPT_ID:
             global value_cnt
             # Check if it is a keyword.
             key_num = check_keyword(self, self.lexeme)
             if key_num:
                 token.set_token(key_num)
             else:
-                token.set_token(TOKEN.Token_id)
+                token.set_token(Token.ID)
                 token.set_token_value(value_cnt)
                 insert_symbol_table(self.lexeme)
                 value_cnt += 1
-        elif state == STATE.S_accept_equal:
-            token.set_token(TOKEN.Token_equal)
-        elif state == STATE.S_accept_zero:
-            token.set_token(TOKEN.Token_zero)
+        elif state == State.ACCEPT_EQUAL:
+            token.set_token(Token.EQUAL)
+        elif state == State.ACCEPT_ZERO:
+            token.set_token(Token.ZERO)
             insert_literal_table(self.lexeme)
-        elif state == STATE.S_accept_decimal:
-            token.set_token(TOKEN.Token_decimal)
+        elif state == State.ACCEPT_DECIMAL:
+            token.set_token(Token.DECIMAL)
             insert_literal_table(self.lexeme)
-        elif state == STATE.S_accept_plus:
-            token.set_token(TOKEN.Token_plus)
-        elif state == STATE.S_accept_add_assign:
-            token.set_token(TOKEN.Token_add_assign)
-        elif state == STATE.S_accept_minus:
-            token.set_token(TOKEN.Token_minus)
-        elif state == STATE.S_accept_sub_assign:
-            token.set_token(TOKEN.Token_sub_assign)
-        elif state == STATE.S_accept_func_annotation:
-            token.set_token(TOKEN.Token_func_annotation)
-        elif state == STATE.S_accept_mult:
-            token.set_token(TOKEN.Token_mult)
-        elif state == STATE.S_accept_mult_assign:
-            token.set_token(TOKEN.Token_mult_assign)
-        elif state == STATE.S_accept_exp:
-            token.set_token(TOKEN.Token_exp)
-        elif state == STATE.S_accept_exp_assign:
-            token.set_token(TOKEN.Token_exp_assign)
-        elif state == STATE.S_accept_div:
-            token.set_token(TOKEN.Token_div)
-        elif state == STATE.S_accept_div_assign:
-            token.set_token(TOKEN.Token_div_assign)
-        elif state == STATE.S_accept_floor_div:
-            token.set_token(TOKEN.Token_floor_div)
-        elif state == STATE.S_accept_floor_div_assign:
-            token.set_token(TOKEN.Token_floor_div_assign)
-        elif state == STATE.S_accept_modulus:
-            token.set_token(TOKEN.Token_modulus)
-        elif state == STATE.S_accept_modulus_assign:
-            token.set_token(TOKEN.Token_modulus_assign)
-        elif state == STATE.S_accept_less:
-            token.set_token(TOKEN.Token_less)
-        elif state == STATE.S_accept_less_equal:
-            token.set_token(TOKEN.Token_less_equal)
-        elif state == STATE.S_accept_left_shift:
-            token.set_token(TOKEN.Token_left_shift)
-        elif state == STATE.S_accept_left_shift_assign:
-            token.set_token(TOKEN.Token_left_shift_assign)
-        elif state == STATE.S_accept_greater:
-            token.set_token(TOKEN.Token_greater)
-        elif state == STATE.S_accept_greater_equal:
-            token.set_token(TOKEN.Token_greater_equal)
-        elif state == STATE.S_accept_right_shift:
-            token.set_token(TOKEN.Token_right_shift)
-        elif state == STATE.S_accept_right_shift_assign:
-            token.set_token(TOKEN.Token_right_shift_assign)
-        elif state == STATE.S_accept_and:
-            token.set_token(TOKEN.Token_and)
-        elif state == STATE.S_accept_and_assignment:
-            token.set_token(TOKEN.Token_and_assign)
-        elif state == STATE.S_accept_or:
-            token.set_token(TOKEN.Token_or)
-        elif state == STATE.S_accept_or_assignment:
-            token.set_token(TOKEN.Token_or_assign)
-        elif state == STATE.S_accept_xor:
-            token.set_token(TOKEN.Token_xor)
-        elif state == STATE.S_accept_xor_assignment:
-            token.set_token(TOKEN.Token_xor_assign)
-        elif state == STATE.S_accept_not:
-            token.set_token(TOKEN.Token_not)
-        elif state == STATE.S_accept_colon:
-            token.set_token(TOKEN.Token_colon)
-        elif state == STATE.S_accept_assign1:
-            token.set_token(TOKEN.Token_assign1)
-        elif state == STATE.S_accept_assign2:
-            token.set_token(TOKEN.Token_assign2)
-        elif state == STATE.S_accept_not_equal:
-            token.set_token(TOKEN.Token_not_equal)
-        elif state == STATE.S_accept_lparen:
-            token.set_token(TOKEN.Token_left_paren)
-        elif state == STATE.S_accept_rparen:
-            token.set_token(TOKEN.Token_right_paren)
-        elif state == STATE.S_accept_lbrace:
-            token.set_token(TOKEN.Token_left_brace)
-        elif state == STATE.S_accept_rbrace:
-            token.set_token(TOKEN.Token_right_brace)
-        elif state == STATE.S_accept_lbracket:
-            token.set_token(TOKEN.Token_left_bracket)
-        elif state == STATE.S_accept_rbracket:
-            token.set_token(TOKEN.Token_right_bracket)
-        elif state == STATE.S_accept_comma:
-            token.set_token(TOKEN.Token_comma)
-        elif state == STATE.S_accept_period:
-            token.set_token(TOKEN.Token_period)
-        elif state == STATE.S_accept_semicolon:
-            token.set_token(TOKEN.Token_semicolon)
-        elif state == STATE.S_accept_string1:
-            token.set_token(TOKEN.Token_string1)
+        elif state == State.ACCEPT_PLUS:
+            token.set_token(Token.PLUS)
+        elif state == State.ACCEPT_ADD_ASSIGNMENT:
+            token.set_token(Token.ADD_ASSIGNMENT)
+        elif state == State.ACCEPT_MINUS:
+            token.set_token(Token.MINUS)
+        elif state == State.ACCEPT_SUB_ASSIGNMENT:
+            token.set_token(Token.SUB_ASSIGNMENT)
+        elif state == State.ACCEPT_FUNC_ANNOTATION:
+            token.set_token(Token.FUNC_ANNOTATION)
+        elif state == State.ACCEPT_MULTIPLICATION:
+            token.set_token(Token.MULTIPLICATION)
+        elif state == State.ACCEPT_MULTIPLICATION_ASSIGNMENT:
+            token.set_token(Token.MULT_ASSIGN)
+        elif state == State.ACCEPT_EXP:
+            token.set_token(Token.EXP)
+        elif state == State.ACCEPT_EXP_ASSIGNMENT:
+            token.set_token(Token.EXP_ASSIGNMENT)
+        elif state == State.ACCEPT_DIVISION:
+            token.set_token(Token.DIVISION)
+        elif state == State.ACCEPT_DIVISION_ASSIGNMENT:
+            token.set_token(Token.DIV_ASSIGNMENT)
+        elif state == State.ACCEPT_FLOOR_DIV:
+            token.set_token(Token.FLOOR_DIVISION)
+        elif state == State.ACCEPT_FLOOR_DIV_ASSIGNMENT:
+            token.set_token(Token.FLOOR_DIV_ASSIGNMENT)
+        elif state == State.ACCEPT_MODULUS:
+            token.set_token(Token.MODULUS)
+        elif state == State.ACCEPT_MODULUS_ASSIGNMENT:
+            token.set_token(Token.MODULUS_ASSIGNMENT)
+        elif state == State.ACCEPT_LESS:
+            token.set_token(Token.LESS)
+        elif state == State.ACCEPT_LESS_EQUAL:
+            token.set_token(Token.LESS_EQUAL)
+        elif state == State.ACCEPT_LSHIFT:
+            token.set_token(Token.LSHIFT)
+        elif state == State.ACCEPT_LSHIFT_ASSIGNMENT:
+            token.set_token(Token.LSHIFT_ASSIGNMENT)
+        elif state == State.ACCEPT_GREATER:
+            token.set_token(Token.GREATER)
+        elif state == State.ACCEPT_GREATER_EQUAL:
+            token.set_token(Token.GREATER_EQUAL)
+        elif state == State.ACCEPT_RSHIFT:
+            token.set_token(Token.RSHIFT)
+        elif state == State.ACCEPT_RSHIFT_ASSIGNMENT:
+            token.set_token(Token.RSHIFT_ASSIGNMENT)
+        elif state == State.ACCEPT_AND:
+            token.set_token(Token.AND)
+        elif state == State.ACCEPT_AND_ASSIGNMENT:
+            token.set_token(Token.AND_ASSIGNMENT)
+        elif state == State.ACCEPT_OR:
+            token.set_token(Token.OR)
+        elif state == State.ACCEPT_OR_ASSIGNMENT:
+            token.set_token(Token.OR_ASSIGNMENT)
+        elif state == State.ACCEPT_XOR:
+            token.set_token(Token.XOR)
+        elif state == State.ACCEPT_XOR_ASSIGNMENT:
+            token.set_token(Token.XOR_ASSIGNMENT)
+        elif state == State.ACCEPT_NOT:
+            token.set_token(Token.NOT)
+        elif state == State.ACCEPT_COLON:
+            token.set_token(Token.COLON)
+        elif state == State.ACCEPT_ASSIGNMENT1:
+            token.set_token(Token.ASSIGNMENT1)
+        elif state == State.ACCEPT_ASSIGNMENT2:
+            token.set_token(Token.ASSIGNMENT2)
+        elif state == State.ACCEPT_NOT_EQUAL:
+            token.set_token(Token.NOT_EQUAL)
+        elif state == State.ACCEPT_LPAREN:
+            token.set_token(Token.LPAREN)
+        elif state == State.ACCEPT_RPAREN:
+            token.set_token(Token.RPAREN)
+        elif state == State.ACCEPT_LBRACE:
+            token.set_token(Token.LBRACE)
+        elif state == State.ACCEPT_RBRACE:
+            token.set_token(Token.RBRACE)
+        elif state == State.ACCEPT_LBRACKET:
+            token.set_token(Token.LBRACKET)
+        elif state == State.ACCEPT_RBRACKET:
+            token.set_token(Token.RBRACKET)
+        elif state == State.S_accept_comma:
+            token.set_token(Token.COMMA)
+        elif state == State.ACCEPT_PERIOD:
+            token.set_token(Token.PERIOD)
+        elif state == State.ACCEPT_SEMICOLON:
+            token.set_token(Token.SEMICOLON)
+        elif state == State.ACCEPT_STRING1:
+            token.set_token(Token.STRING1)
             insert_literal_table(self.lexeme)
-        elif state == STATE.S_accept_string2:
-            token.set_token(TOKEN.Token_string2)
+        elif state == State.ACCEPT_STRING2:
+            token.set_token(Token.STRING2)
             insert_literal_table(self.lexeme)
-        elif state == STATE.S_accept_space:
-            token.set_token(TOKEN.Token_space)
+        elif state == State.ACCEPT_SPACE:
+            token.set_token(Token.SPACE)
 
         token_table.add_token(token)
-        print(self.lexeme, state, token.get_token())
+        print(self.lexeme.strip(), state, token.get_token())
         # Initialize state
-        self.currentState = STATE.S_start
+        self.currentState = State.START
         self.lexeme = ''
 
 

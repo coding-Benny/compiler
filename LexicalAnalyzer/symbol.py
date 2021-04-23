@@ -1,7 +1,7 @@
 from enum import Enum, auto
 from dataclasses import dataclass
 import re
-from state import STATE
+from state import State
 
 
 @dataclass
@@ -31,40 +31,40 @@ class SymbolTable:
 
 
 class Symbol(Enum):
-    sb_letter = auto()
-    sb_zero = auto()
-    sb_number = auto()
-    sb_digit = auto()
-    sb_equal = auto()  # =
-    sb_less = auto()  # <
-    sb_greater = auto()  # >
-    sb_plus = auto()  # +
-    sb_minus = auto()  # -
-    sb_multiplication = auto()  # *
-    sb_division = auto()  # /
-    sb_modulus = auto()  # %
-    sb_and = auto()  # &
-    sb_or = auto()  # |
-    sb_xor = auto()  # ^
-    sb_tilde = auto()  # ~
-    sb_exclamation = auto()  # !
-    sb_lparen = auto()  # (
-    sb_rparen = auto()  # )
-    sb_lbrace = auto()  # {
-    sb_rbrace = auto()  # }
-    sb_lbracket = auto()  # [
-    sb_rbracket = auto()  # ]
-    sb_comma = auto()  # ,
-    sb_period = auto()  # .
-    sb_colon = auto()  # :
-    sb_semicolon = auto()  # ;
-    sb_hash = auto()  # #
-    sb_backslash = auto()  # \
-    sb_single_quot = auto()  # '
-    sb_double_quot = auto()  # "
-    sb_at = auto()  # @
-    sb_other = auto()  # [^a-zA-Z0-9]
-    sb_space = auto()
+    LETTER = auto()
+    ZERO = auto()
+    NUMBER = auto()
+    DIGIT = auto()
+    EQUAL = auto()  # =
+    LESS = auto()  # <
+    GREATER = auto()  # >
+    PLUS = auto()  # +
+    MINUS = auto()  # -
+    MULTIPLICATION = auto()  # *
+    DIVISION = auto()  # /
+    MODULUS = auto()  # %
+    AMPERSAND = auto()  # &
+    PIPE = auto()  # |
+    CARET = auto()  # ^
+    TILDE = auto()  # ~
+    BANG = auto()  # !
+    LPAREN = auto()  # (
+    RPAREN = auto()  # )
+    LBRACE = auto()  # {
+    RBRACE = auto()  # }
+    LBRACKET = auto()  # [
+    RBRACKET = auto()  # ]
+    COMMA = auto()  # ,
+    PERIOD = auto()  # .
+    COLON = auto()  # :
+    SEMICOLON = auto()  # ;
+    HASH = auto()  # #
+    BACKSLASH = auto()  # \
+    SINGLE_QUOT = auto()  # '
+    DOUBLE_QUOT = auto()  # "
+    AT = auto()  # @
+    OTHER = auto()  # [^a-zA-Z0-9]
+    SPACE = auto()
 
 
 symbol_table = SymbolTable()
@@ -74,88 +74,88 @@ def identify_symbol(character, status):
     cur_sb = None
 
     if bool(re.match('[a-zA-Z]', character)):
-        cur_sb = Symbol.sb_letter
+        cur_sb = Symbol.LETTER
 
-    if status == STATE.S_start:
+    if status == State.START:
         if character == '0':
-            cur_sb = Symbol.sb_zero
+            cur_sb = Symbol.ZERO
         elif bool(re.match('[1-9]', character)):
-            cur_sb = Symbol.sb_number
+            cur_sb = Symbol.NUMBER
 
-    if status == STATE.S_in_id:  # identifier other
+    if status == State.IN_ID:  # identifier other
         if bool(re.match('[0-9]', character)):
-            cur_sb = Symbol.sb_digit
+            cur_sb = Symbol.DIGIT
         if bool(re.match('[^0-9a-zA-Z]', character)):
-            cur_sb = Symbol.sb_other
-    elif status == STATE.S_in_decimal:
+            cur_sb = Symbol.OTHER
+    elif status == State.IN_DECIMAL:
         if bool(re.match('[0-9]', character)):
-            cur_sb = Symbol.sb_digit
+            cur_sb = Symbol.DIGIT
         elif bool(re.match('[^0-9]', character)):
-            cur_sb = Symbol.sb_other
-    elif status == STATE.S_in_string1 or status == STATE.S_in_string2:  # string
+            cur_sb = Symbol.OTHER
+    elif status == State.IN_STRING1 or status == State.IN_STRING2:  # string
         if bool(re.match('[^\"\']', character)):
-            cur_sb = Symbol.sb_letter
+            cur_sb = Symbol.LETTER
         elif character == '\'':
-            cur_sb = Symbol.sb_single_quot
+            cur_sb = Symbol.SINGLE_QUOT
         elif character == '\"':
-            cur_sb = Symbol.sb_double_quot
-    elif status == STATE.S_in_assign or status == STATE.S_in_equal:
+            cur_sb = Symbol.DOUBLE_QUOT
+    elif status == State.IN_ASSIGNMENT or status == State.IN_EQUAL:
         if character != '=':
-            cur_sb = Symbol.sb_other
+            cur_sb = Symbol.OTHER
     elif character == '+':
-        cur_sb = Symbol.sb_plus
+        cur_sb = Symbol.PLUS
     elif character == '-':
-        cur_sb = Symbol.sb_minus
+        cur_sb = Symbol.MINUS
     elif character == '*':
-        cur_sb = Symbol.sb_multiplication
+        cur_sb = Symbol.MULTIPLICATION
     elif character == '/':
-        cur_sb = Symbol.sb_division
+        cur_sb = Symbol.DIVISION
     elif character == '%':
-        cur_sb = Symbol.sb_modulus
+        cur_sb = Symbol.MODULUS
     elif character == '=':
-        cur_sb = Symbol.sb_equal
+        cur_sb = Symbol.EQUAL
     elif character == '>':
-        cur_sb = Symbol.sb_greater
+        cur_sb = Symbol.GREATER
     elif character == '<':
-        cur_sb = Symbol.sb_less
+        cur_sb = Symbol.LESS
     elif character == '&':
-        cur_sb = Symbol.sb_and
+        cur_sb = Symbol.AMPERSAND
     elif character == '|':
-        cur_sb = Symbol.sb_or
+        cur_sb = Symbol.PIPE
     elif character == '^':
-        cur_sb = Symbol.sb_xor
+        cur_sb = Symbol.CARET
     elif character == '~':
-        cur_sb = Symbol.sb_tilde
+        cur_sb = Symbol.TILDE
     elif character == ':':
-        cur_sb = Symbol.sb_colon
+        cur_sb = Symbol.COLON
     elif character == ';':
-        cur_sb = Symbol.sb_semicolon
+        cur_sb = Symbol.SEMICOLON
     elif character == '!':
-        cur_sb = Symbol.sb_exclamation
+        cur_sb = Symbol.BANG
     elif character == '@':
-        cur_sb = Symbol.sb_at
+        cur_sb = Symbol.AT
     elif character == '.':
-        cur_sb = Symbol.sb_period
+        cur_sb = Symbol.PERIOD
     elif character == ',':
-        cur_sb = Symbol.sb_comma
+        cur_sb = Symbol.COMMA
     elif character == '\'':
-        cur_sb = Symbol.sb_single_quot
+        cur_sb = Symbol.SINGLE_QUOT
     elif character == '\"':
-        cur_sb = Symbol.sb_double_quot
+        cur_sb = Symbol.DOUBLE_QUOT
     elif character == '(':
-        cur_sb = Symbol.sb_lparen
+        cur_sb = Symbol.LPAREN
     elif character == ')':
-        cur_sb = Symbol.sb_rparen
+        cur_sb = Symbol.RPAREN
     elif character == '{':
-        cur_sb = Symbol.sb_lbrace
+        cur_sb = Symbol.LBRACE
     elif character == '}':
-        cur_sb = Symbol.sb_rbrace
+        cur_sb = Symbol.RBRACE
     elif character == '[':
-        cur_sb = Symbol.sb_lbracket
+        cur_sb = Symbol.LBRACKET
     elif character == ']':
-        cur_sb = Symbol.sb_rbracket
+        cur_sb = Symbol.RBRACKET
     elif character.isspace():
-        cur_sb = Symbol.sb_space
+        cur_sb = Symbol.SPACE
     return cur_sb
 
 
