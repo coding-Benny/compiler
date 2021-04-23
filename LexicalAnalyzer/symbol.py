@@ -40,7 +40,7 @@ class Symbol(Enum):
     GREATER = auto()  # >
     PLUS = auto()  # +
     MINUS = auto()  # -
-    MULTIPLICATION = auto()  # *
+    ASTERISK = auto()  # *
     DIVISION = auto()  # /
     MODULUS = auto()  # %
     AMPERSAND = auto()  # &
@@ -100,15 +100,40 @@ def identify_symbol(character, status):
             cur_sb = Symbol.SINGLE_QUOT
         elif character == '\"':
             cur_sb = Symbol.DOUBLE_QUOT
-    elif status == State.IN_ASSIGNMENT or status == State.IN_EQUAL:
+    elif status == State.IN_MINUS:
+        if character != '>' and character != '=':
+            cur_sb = Symbol.OTHER
+        elif character == '>':
+            cur_sb = Symbol.GREATER
+        elif character == '=':
+            cur_sb = Symbol.EQUAL
+    elif status == State.IN_MULTIPLICATION:
+        if character != '*' and character != '=':
+            cur_sb = Symbol.OTHER
+        elif character == '*':
+            cur_sb = Symbol.ASTERISK
+        elif character == '=':
+            cur_sb = Symbol.EQUAL
+    elif status == State.IN_DIVISION:
+        if character != '/' and character != '=':
+            cur_sb = Symbol.OTHER
+        elif character == '/':
+            cur_sb = Symbol.DIVISION
+        elif character == '=':
+            cur_sb = Symbol.EQUAL
+    elif status in [State.IN_ASSIGNMENT, State.IN_EQUAL, State.IN_PLUS, State.IN_EXP, State.IN_FLOOR_DIV,
+                    State.IN_MODULUS, State.IN_LSHIFT, State.IN_RSHIFT, State.IN_AND, State.IN_OR, State.IN_XOR,
+                    State.IN_ASSIGNMENT, State.IN_EQUAL]:
         if character != '=':
             cur_sb = Symbol.OTHER
+        else:
+            cur_sb = Symbol.EQUAL
     elif character == '+':
         cur_sb = Symbol.PLUS
     elif character == '-':
         cur_sb = Symbol.MINUS
     elif character == '*':
-        cur_sb = Symbol.MULTIPLICATION
+        cur_sb = Symbol.ASTERISK
     elif character == '/':
         cur_sb = Symbol.DIVISION
     elif character == '%':

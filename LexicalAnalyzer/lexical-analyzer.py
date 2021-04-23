@@ -71,7 +71,7 @@ class LexicalAnalyzer:
                 Symbol.EQUAL: State.IN_EQUAL,
                 Symbol.PLUS: State.IN_PLUS,
                 Symbol.MINUS: State.IN_MINUS,
-                Symbol.MULTIPLICATION: State.IN_MULTIPLICATION,
+                Symbol.ASTERISK: State.IN_MULTIPLICATION,
                 Symbol.DIVISION: State.IN_DIVISION,
                 Symbol.MODULUS: State.IN_MODULUS,
                 Symbol.LESS: State.IN_LESS,
@@ -117,7 +117,7 @@ class LexicalAnalyzer:
                 Symbol.OTHER: State.ACCEPT_MINUS  # -
             },
             State.IN_MULTIPLICATION: {  # *
-                Symbol.MULTIPLICATION: State.IN_EXP,  # **
+                Symbol.ASTERISK: State.IN_EXP,  # **
                 Symbol.EQUAL: State.ACCEPT_MULTIPLICATION_ASSIGNMENT,  # *=
                 Symbol.OTHER: State.ACCEPT_MULTIPLICATION  # *
             },
@@ -256,7 +256,7 @@ def check_acceptance(self, state: State):
         elif state == State.ACCEPT_MULTIPLICATION:
             token.set_token(Token.MULTIPLICATION)
         elif state == State.ACCEPT_MULTIPLICATION_ASSIGNMENT:
-            token.set_token(Token.MULT_ASSIGN)
+            token.set_token(Token.MULTIPLICATION_ASSIGNMENT)
         elif state == State.ACCEPT_EXP:
             token.set_token(Token.EXP)
         elif state == State.ACCEPT_EXP_ASSIGNMENT:
