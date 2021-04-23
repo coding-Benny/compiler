@@ -65,6 +65,7 @@ class Symbol(Enum):
     AT = auto()  # @
     OTHER = auto()  # [^a-zA-Z0-9]
     SPACE = auto()
+    NEWLINE = auto()
 
 
 symbol_table = SymbolTable()
@@ -154,8 +155,10 @@ def identify_symbol(character, status):
         cur_sb = Symbol.LBRACKET
     elif character == ']':
         cur_sb = Symbol.RBRACKET
-    elif character.isspace():
+    elif character == ' ' or character == '\t':
         cur_sb = Symbol.SPACE
+    elif character == '\n':
+        cur_sb = Symbol.NEWLINE
     return cur_sb
 
 

@@ -56,6 +56,7 @@ class Token(Enum):
     SEMICOLON = auto()  # ;
     COMMENT = auto()  # #
     SPACE = auto()
+    NEWLINE = auto()
 
 
 @dataclass
@@ -95,5 +96,9 @@ class TokenTable:
         for token in self.__pToken:
             if not token.get_token_value():
                 token.set_token_value('-')
-            res += '({}, {})\n'.format(token.get_token(), token.get_token_value())
+            if token.get_token() != Token.NEWLINE:
+                res += '({}, {})  '.format(token.get_token(), token.get_token_value())
+            else:
+                res += '({}, {})\n'.format(token.get_token(), token.get_token_value())
+
         return res

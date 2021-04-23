@@ -4,7 +4,6 @@ from my_token import *
 from literal import *
 
 token_table = TokenTable()
-value_cnt = 1
 
 
 class LexicalAnalyzer:
@@ -62,6 +61,7 @@ class LexicalAnalyzer:
             State.ACCEPT_STRING1,
             State.ACCEPT_STRING2,
             State.ACCEPT_SPACE,
+            State.ACCEPT_NEWLINE,
         ]
         self.table = {
             State.START: {
@@ -96,6 +96,7 @@ class LexicalAnalyzer:
                 Symbol.HASH: State.ACCEPT_COMMENT,
                 Symbol.BACKSLASH: State.ESCAPE,
                 Symbol.SPACE: State.ACCEPT_SPACE,
+                Symbol.NEWLINE: State.ACCEPT_NEWLINE,
             },
             State.IN_ID: {
                 Symbol.LETTER: State.IN_ID,
@@ -226,16 +227,14 @@ def check_acceptance(self, state: State):
     if state in self.finalStates:
         token = MyToken()
         if state == State.ACCEPT_ID:
-            global value_cnt
             # Check if it is a keyword.
             key_num = check_keyword(self, self.lexeme)
             if key_num:
                 token.set_token(key_num)
             else:
                 token.set_token(Token.ID)
-                token.set_token_value(value_cnt)
-                insert_symbol_table(self.lexeme)
-                value_cnt += 1
+                value = insert_symbol_table(self.lexeme)
+                token.set_token_value(value)
         elif state == State.ACCEPT_EQUAL:
             token.set_token(Token.EQUAL)
         elif state == State.ACCEPT_ZERO:
@@ -338,6 +337,8 @@ def check_acceptance(self, state: State):
             insert_literal_table(self.lexeme)
         elif state == State.ACCEPT_SPACE:
             token.set_token(Token.SPACE)
+        elif state == State.ACCEPT_NEWLINE:
+            token.set_token(Token.NEWLINE)
 
         token_table.add_token(token)
         print(self.lexeme.strip(), state, token.get_token())
@@ -359,9 +360,9 @@ def main():
     with open(sys.argv[2], "w") as output:
         output.write("==========================[ Token Table ]==========================\n")
         output.write(token_table.get_all_tokens())
-        output.write("==========================[ Symbol Table ]=========================\n")
+        output.write("\n==========================[ Symbol Table ]=========================\n")
         output.write(symbol_table.get_all_symbols())
-        output.write("=========================[ Literal Table ]=========================\n")
+        output.write("\n=========================[ Literal Table ]=========================\n")
         output.write(literal_table.get_all_literals())
     output.close()
     print('programmed by JeongHyeon Lee')

@@ -83,3 +83,4 @@ class State(Enum):
     ACCEPT_SEMICOLON = auto()             # ;
     ACCEPT_COMMENT = auto()               # #
     ACCEPT_SPACE = auto()
+    ACCEPT_NEWLINE = auto()
