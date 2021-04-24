@@ -136,3 +136,9 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Etc.
+.DS_Store
+.idea/
+LexicalAnalyzer/*.txt
+LexicalAnalyzer/*-file.py

@@ -2,56 +2,102 @@ from enum import Enum, auto
 from dataclasses import dataclass
 
 
+class Token(Enum):
+    ID = auto()
+    DECIMAL = auto()
+    ZERO = auto()
+    OCTAL = auto()
+    HEX = auto()
+    STRING1 = auto()
+    STRING2 = auto()
+    PLUS = auto()                       # +
+    ADD_ASSIGNMENT = auto()             # +=
+    MINUS = auto()                      # -
+    FUNC_ANNOTATION = auto()            # ->
+    SUB_ASSIGNMENT = auto()             # -=
+    MULTIPLICATION = auto()             # *
+    EXP = auto()                        # **
+    MULTIPLICATION_ASSIGNMENT = auto()  # *=
+    EXP_ASSIGNMENT = auto()             # **=
+    DIVISION = auto()                   # /
+    FLOOR_DIVISION = auto()             # //
+    DIV_ASSIGNMENT = auto()             # /=
+    FLOOR_DIV_ASSIGNMENT = auto()       # //=
+    MODULUS = auto()                    # %
+    MODULUS_ASSIGNMENT = auto()         # %=
+    LESS = auto()                       # <
+    LESS_EQUAL = auto()                 # <=
+    LSHIFT = auto()                     # <<
+    LSHIFT_ASSIGNMENT = auto()          # <<=
+    GREATER = auto()                    # >
+    GREATER_EQUAL = auto()              # >=
+    RSHIFT = auto()                     # >>
+    RSHIFT_ASSIGNMENT = auto()          # >>=
+    AND = auto()                        # &
+    AND_ASSIGNMENT = auto()             # &=
+    OR = auto()                         # |
+    OR_ASSIGNMENT = auto()              # \=
+    XOR = auto()                        # ^
+    XOR_ASSIGNMENT = auto()             # ^=
+    NOT = auto()                        # ~
+    COLON = auto()                      # :
+    ASSIGNMENT1 = auto()                # :=
+    ASSIGNMENT2 = auto()                # =
+    EQUAL = auto()                      # ==
+    NOT_EQUAL = auto()                  # !=
+    LPAREN = auto()                     # (
+    RPAREN = auto()                     # )
+    LBRACE = auto()                     # {
+    RBRACE = auto()                     # }
+    LBRACKET = auto()                   # [
+    RBRACKET = auto()                   # ]
+    COMMA = auto()                      # ,
+    PERIOD = auto()                     # .
+    SEMICOLON = auto()                  # ;
+    SPACE = auto()                      # ' '
+    NEWLINE = auto()                    # \n
+
+
 @dataclass
-class Token:
-    number: int
-    value: int
+class MyToken:
+    def __init__(self):
+        self.__number: int = 0
+        self.__value: int = 0
+
+    def set_token(self, n: Token):
+        self.__number = n
+
+    def set_token_value(self, v: int):
+        self.__value = v
+
+    def get_token(self):
+        return self.__number
+
+    def get_token_value(self):
+        return self.__value
 
 
-class TOKEN(Enum):
-    Token_id = auto()
-    Token_decimal = auto()
-    Token_zero = auto()
-    Token_octal = auto()
-    Token_hex = auto()
-    Token_string = auto()
-    Token_plus = auto()  # +
-    Token_add_assign = auto()  # +=
-    Token_minus = auto()  # -
-    Token_func_annotation = auto()  # ->
-    Token_sub_assign = auto()  # -=
-    Token_mult = auto()  # *
-    Token_exp = auto()  # **
-    Token_mult_assign = auto()  # *=
-    Token_exp_assign = auto()  # **=
-    Token_div = auto()  # /
-    Token_floor_div = auto()  # //
-    Token_div_assign = auto()  # /=
-    Token_floor_div_assign = auto()  # //=
-    Token_modulus = auto()  # %
-    Token_modulus_assign = auto()  # %=
-    Token_less = auto()  # <
-    Token_less_equal = auto()  # <=
-    Token_left_shift = auto()  # <<
-    Token_greater = auto()  # >
-    Token_greater_equal = auto()  # >=
-    Token_right_shift = auto()  # >>
-    Token_and_assign = auto()  # &=
-    Token_or_assign = auto()  # \=
-    Token_xor_assign = auto()  # ^=
-    Token_not = auto()  # ~
-    Token_colon = auto()  # :
-    Token_assign1 = auto()  # :=
-    Token_assign2 = auto()  # =
-    Token_equal = auto()  # ==
-    Token_not_equal = auto()  # !=
-    Token_left_paren = auto()  # (
-    Token_right_paren = auto()  # )
-    Token_left_brace = auto()  # {
-    Token_right_brace = auto()  # }
-    Token_left_bracket = auto()  # [
-    Token_right_bracket = auto()  # ]
-    Token_comma = auto()  # ,
-    Token_period = auto()  # .
-    Token_semicolon = auto()  # ;
-    Token_comment = auto()  # #
+@dataclass
+class TokenTable:
+    def __init__(self):
+        self.__pToken: list = []
+        self.__nToken: int = 0
+
+    def add_token(self, p: MyToken):
+        self.__pToken.append(p)
+        self.__nToken += 1
+
+    def number_of_tokens(self):
+        return self.__nToken
+
+    def get_all_tokens(self):
+        res = ''
+        for token in self.__pToken:
+            if not token.get_token_value():
+                token.set_token_value('-')
+            if token.get_token() != Token.NEWLINE:
+                res += '({}, {})  '.format(token.get_token(), token.get_token_value())
+            else:
+                res += '({}, {})\n'.format(token.get_token(), token.get_token_value())
+
+        return res
