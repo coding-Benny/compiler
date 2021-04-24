@@ -4,7 +4,7 @@ from my_token import *
 from literal import *
 
 token_table = TokenTable()
-is_error_occurred = False
+error_occurred = False
 error_msg = ''
 
 
@@ -17,6 +17,8 @@ class LexicalAnalyzer:
             State.ACCEPT_EQUAL,
             State.ACCEPT_ZERO,
             State.ACCEPT_DECIMAL,
+            State.ACCEPT_OCTAL,
+            State.ACCEPT_HEX,
             State.ACCEPT_PLUS,
             State.ACCEPT_ADD_ASSIGNMENT,
             State.ACCEPT_MINUS,
@@ -68,7 +70,7 @@ class LexicalAnalyzer:
         self.table = {
             State.START: {
                 Symbol.LETTER: State.IN_ID,
-                Symbol.ZERO: State.ACCEPT_ZERO,
+                Symbol.ZERO: State.IN_ZERO,
                 Symbol.NUMBER: State.IN_DECIMAL,
                 Symbol.EQUAL: State.IN_EQUAL,
                 Symbol.PLUS: State.IN_PLUS,
@@ -105,9 +107,22 @@ class LexicalAnalyzer:
                 Symbol.DIGIT: State.IN_ID,
                 Symbol.OTHER: State.ACCEPT_ID
             },
+            State.IN_ZERO: {
+                Symbol.OTHER: State.ACCEPT_ZERO,
+                Symbol.OCTAL: State.IN_OCTAL,
+                Symbol.PREFIX_X: State.IN_HEX
+            },
             State.IN_DECIMAL: {
                 Symbol.DIGIT: State.IN_DECIMAL,
                 Symbol.OTHER: State.ACCEPT_DECIMAL
+            },
+            State.IN_OCTAL: {
+                Symbol.OCTAL: State.IN_OCTAL,
+                Symbol.OTHER: State.ACCEPT_OCTAL
+            },
+            State.IN_HEX: {
+                Symbol.HEX: State.IN_HEX,
+                Symbol.OTHER: State.ACCEPT_HEX
             },
             State.IN_PLUS: {  # +
                 Symbol.EQUAL: State.ACCEPT_ADD_ASSIGNMENT,  # +=
@@ -206,9 +221,9 @@ class LexicalAnalyzer:
                 continue
             current_symbol = identify_symbol(symbol, self.currentState)
             if current_symbol is None:
-                global is_error_occurred, error_msg
-                is_error_occurred = True
-                error_msg = "Error occurred because of the symbol {}".format(symbol)
+                global error_occurred, error_msg
+                error_occurred = True
+                error_msg = "!!! Error occurred because of the symbol {} !!!".format(symbol)
                 print(error_msg)
                 break
             if current_symbol != Symbol.OTHER:
@@ -250,6 +265,12 @@ def check_acceptance(self, state: State):
             insert_literal_table(self.lexeme)
         elif state == State.ACCEPT_DECIMAL:
             token.set_token(Token.DECIMAL)
+            insert_literal_table(self.lexeme)
+        elif state == State.ACCEPT_OCTAL:
+            token.set_token(Token.OCTAL)
+            insert_literal_table(self.lexeme)
+        elif state == State.ACCEPT_HEX:
+            token.set_token(Token.HEX)
             insert_literal_table(self.lexeme)
         elif state == State.ACCEPT_PLUS:
             token.set_token(Token.PLUS)
@@ -366,15 +387,14 @@ def main():
 
     # 인자로 넘긴 output file 에 쓰기
     with open(sys.argv[2], "w") as output:
-        if is_error_occurred:
+        output.write("==========================[ Token Table ]==========================\n")
+        output.write(token_table.get_all_tokens())
+        if error_occurred:
             output.write(error_msg)
-        else:
-            output.write("==========================[ Token Table ]==========================\n")
-            output.write(token_table.get_all_tokens())
-            output.write("\n==========================[ Symbol Table ]=========================\n")
-            output.write(symbol_table.get_all_symbols())
-            output.write("\n=========================[ Literal Table ]=========================\n")
-            output.write(literal_table.get_all_literals())
+        output.write("\n==========================[ Symbol Table ]=========================\n")
+        output.write(symbol_table.get_all_symbols())
+        output.write("\n=========================[ Literal Table ]=========================\n")
+        output.write(literal_table.get_all_literals())
     output.close()
     print('programmed by JeongHyeon Lee')
 

@@ -35,6 +35,9 @@ class Symbol(Enum):
     ZERO = auto()
     NUMBER = auto()
     DIGIT = auto()
+    OCTAL = auto()
+    HEX = auto()
+    PREFIX_X = auto()
     EQUAL = auto()  # =
     LESS = auto()  # <
     GREATER = auto()  # >
@@ -82,16 +85,89 @@ def identify_symbol(character, status):
             cur_sb = Symbol.ZERO
         elif bool(re.match('[1-9]', character)):
             cur_sb = Symbol.NUMBER
+        elif character == '+':
+            cur_sb = Symbol.PLUS
+        elif character == '-':
+            cur_sb = Symbol.MINUS
+        elif character == '*':
+            cur_sb = Symbol.ASTERISK
+        elif character == '/':
+            cur_sb = Symbol.DIVISION
+        elif character == '%':
+            cur_sb = Symbol.MODULUS
+        elif character == '=':
+            cur_sb = Symbol.EQUAL
+        elif character == '>':
+            cur_sb = Symbol.GREATER
+        elif character == '<':
+            cur_sb = Symbol.LESS
+        elif character == '&':
+            cur_sb = Symbol.AMPERSAND
+        elif character == '|':
+            cur_sb = Symbol.PIPE
+        elif character == '^':
+            cur_sb = Symbol.CARET
+        elif character == '~':
+            cur_sb = Symbol.TILDE
+        elif character == ':':
+            cur_sb = Symbol.COLON
+        elif character == ';':
+            cur_sb = Symbol.SEMICOLON
+        elif character == '!':
+            cur_sb = Symbol.BANG
+        elif character == '@':
+            cur_sb = Symbol.AT
+        elif character == '.':
+            cur_sb = Symbol.PERIOD
+        elif character == ',':
+            cur_sb = Symbol.COMMA
+        elif character == '\'':
+            cur_sb = Symbol.SINGLE_QUOT
+        elif character == '\"':
+            cur_sb = Symbol.DOUBLE_QUOT
+        elif character == '(':
+            cur_sb = Symbol.LPAREN
+        elif character == ')':
+            cur_sb = Symbol.RPAREN
+        elif character == '{':
+            cur_sb = Symbol.LBRACE
+        elif character == '}':
+            cur_sb = Symbol.RBRACE
+        elif character == '[':
+            cur_sb = Symbol.LBRACKET
+        elif character == ']':
+            cur_sb = Symbol.RBRACKET
+        elif character == ' ' or character == '\t':
+            cur_sb = Symbol.SPACE
+        elif character == '\n':
+            cur_sb = Symbol.NEWLINE
 
     if status == State.IN_ID:  # identifier other
         if bool(re.match('[0-9]', character)):
             cur_sb = Symbol.DIGIT
         if bool(re.match('[^0-9a-zA-Z]', character)):
             cur_sb = Symbol.OTHER
+    elif status == State.IN_ZERO:
+        if character.lower() == 'x':
+            cur_sb = Symbol.PREFIX_X
+        elif bool(re.match('[0-7]', character)):
+            cur_sb = Symbol.OCTAL
+        else:
+            cur_sb = Symbol.OTHER
     elif status == State.IN_DECIMAL:
         if bool(re.match('[0-9]', character)):
             cur_sb = Symbol.DIGIT
         elif bool(re.match('[^0-9]', character)):
+            cur_sb = Symbol.OTHER
+    elif status == State.IN_OCTAL:
+        if bool(re.match('[0-7]', character)):
+            cur_sb = Symbol.OCTAL
+        else:
+            cur_sb = Symbol.OTHER
+    elif status == State.IN_HEX:
+        if bool(re.match('[0-9a-fA-F]', character)):
+            cur_sb = Symbol.HEX
+        else:
             cur_sb = Symbol.OTHER
     elif status == State.IN_STRING1 or status == State.IN_STRING2:  # string
         if bool(re.match('[^\"\']', character)):
@@ -142,62 +218,7 @@ def identify_symbol(character, status):
             cur_sb = Symbol.OTHER
         else:
             cur_sb = Symbol.EQUAL
-    elif character == '+':
-        cur_sb = Symbol.PLUS
-    elif character == '-':
-        cur_sb = Symbol.MINUS
-    elif character == '*':
-        cur_sb = Symbol.ASTERISK
-    elif character == '/':
-        cur_sb = Symbol.DIVISION
-    elif character == '%':
-        cur_sb = Symbol.MODULUS
-    elif character == '=':
-        cur_sb = Symbol.EQUAL
-    elif character == '>':
-        cur_sb = Symbol.GREATER
-    elif character == '<':
-        cur_sb = Symbol.LESS
-    elif character == '&':
-        cur_sb = Symbol.AMPERSAND
-    elif character == '|':
-        cur_sb = Symbol.PIPE
-    elif character == '^':
-        cur_sb = Symbol.CARET
-    elif character == '~':
-        cur_sb = Symbol.TILDE
-    elif character == ':':
-        cur_sb = Symbol.COLON
-    elif character == ';':
-        cur_sb = Symbol.SEMICOLON
-    elif character == '!':
-        cur_sb = Symbol.BANG
-    elif character == '@':
-        cur_sb = Symbol.AT
-    elif character == '.':
-        cur_sb = Symbol.PERIOD
-    elif character == ',':
-        cur_sb = Symbol.COMMA
-    elif character == '\'':
-        cur_sb = Symbol.SINGLE_QUOT
-    elif character == '\"':
-        cur_sb = Symbol.DOUBLE_QUOT
-    elif character == '(':
-        cur_sb = Symbol.LPAREN
-    elif character == ')':
-        cur_sb = Symbol.RPAREN
-    elif character == '{':
-        cur_sb = Symbol.LBRACE
-    elif character == '}':
-        cur_sb = Symbol.RBRACE
-    elif character == '[':
-        cur_sb = Symbol.LBRACKET
-    elif character == ']':
-        cur_sb = Symbol.RBRACKET
-    elif character == ' ' or character == '\t':
-        cur_sb = Symbol.SPACE
-    elif character == '\n':
-        cur_sb = Symbol.NEWLINE
+
     return cur_sb
 
 
