@@ -4,6 +4,8 @@ from my_token import *
 from literal import *
 
 token_table = TokenTable()
+is_error_occurred = False
+error_msg = ''
 
 
 class LexicalAnalyzer:
@@ -203,6 +205,12 @@ class LexicalAnalyzer:
             if self.currentState == State.START and symbol.isspace():
                 continue
             current_symbol = identify_symbol(symbol, self.currentState)
+            if current_symbol is None:
+                global is_error_occurred, error_msg
+                is_error_occurred = True
+                error_msg = "Error occurred because of the symbol {}".format(symbol)
+                print(error_msg)
+                break
             if current_symbol != Symbol.OTHER:
                 self.lexeme += symbol
             self.currentState = self.table[self.currentState][current_symbol]
@@ -358,12 +366,15 @@ def main():
 
     # 인자로 넘긴 output file 에 쓰기
     with open(sys.argv[2], "w") as output:
-        output.write("==========================[ Token Table ]==========================\n")
-        output.write(token_table.get_all_tokens())
-        output.write("\n==========================[ Symbol Table ]=========================\n")
-        output.write(symbol_table.get_all_symbols())
-        output.write("\n=========================[ Literal Table ]=========================\n")
-        output.write(literal_table.get_all_literals())
+        if is_error_occurred:
+            output.write(error_msg)
+        else:
+            output.write("==========================[ Token Table ]==========================\n")
+            output.write(token_table.get_all_tokens())
+            output.write("\n==========================[ Symbol Table ]=========================\n")
+            output.write(symbol_table.get_all_symbols())
+            output.write("\n=========================[ Literal Table ]=========================\n")
+            output.write(literal_table.get_all_literals())
     output.close()
     print('programmed by JeongHyeon Lee')
 

@@ -121,6 +121,20 @@ def identify_symbol(character, status):
             cur_sb = Symbol.DIVISION
         elif character == '=':
             cur_sb = Symbol.EQUAL
+    elif status == State.IN_LESS:
+        if character != '<' and character != '=':
+            cur_sb = Symbol.OTHER
+        elif character == '<':
+            cur_sb = Symbol.LESS
+        elif character == '=':
+            cur_sb = Symbol.EQUAL
+    elif status == State.IN_GREATER:
+        if character != '>' and character != '=':
+            cur_sb = Symbol.OTHER
+        elif character == '>':
+            cur_sb = Symbol.GREATER
+        elif character == '=':
+            cur_sb = Symbol.EQUAL
     elif status in [State.IN_ASSIGNMENT, State.IN_EQUAL, State.IN_PLUS, State.IN_EXP, State.IN_FLOOR_DIV,
                     State.IN_MODULUS, State.IN_LSHIFT, State.IN_RSHIFT, State.IN_AND, State.IN_OR, State.IN_XOR,
                     State.IN_ASSIGNMENT, State.IN_EQUAL]:
