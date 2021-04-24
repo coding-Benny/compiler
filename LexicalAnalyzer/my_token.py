@@ -74,7 +74,10 @@ class MyToken:
         return self.__number
 
     def get_token_value(self):
-        return self.__value
+        if self.__value == 0:
+            return '-'
+        else:
+            return self.__value
 
 
 @dataclass
@@ -93,8 +96,6 @@ class TokenTable:
     def get_all_tokens(self):
         res = ''
         for token in self.__pToken:
-            if not token.get_token_value():
-                token.set_token_value('-')
             if token.get_token() != Token.NEWLINE:
                 res += '({}, {})  '.format(token.get_token(), token.get_token_value())
             else:
