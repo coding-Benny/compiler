@@ -10,53 +10,52 @@ class Token(Enum):
     HEX = auto()
     STRING1 = auto()
     STRING2 = auto()
-    PLUS = auto()  # +
-    ADD_ASSIGNMENT = auto()  # +=
-    MINUS = auto()  # -
-    FUNC_ANNOTATION = auto()  # ->
-    SUB_ASSIGNMENT = auto()  # -=
-    MULTIPLICATION = auto()  # *
-    EXP = auto()  # **
+    PLUS = auto()                       # +
+    ADD_ASSIGNMENT = auto()             # +=
+    MINUS = auto()                      # -
+    FUNC_ANNOTATION = auto()            # ->
+    SUB_ASSIGNMENT = auto()             # -=
+    MULTIPLICATION = auto()             # *
+    EXP = auto()                        # **
     MULTIPLICATION_ASSIGNMENT = auto()  # *=
-    EXP_ASSIGNMENT = auto()  # **=
-    DIVISION = auto()  # /
-    FLOOR_DIVISION = auto()  # //
-    DIV_ASSIGNMENT = auto()  # /=
-    FLOOR_DIV_ASSIGNMENT = auto()  # //=
-    MODULUS = auto()  # %
-    MODULUS_ASSIGNMENT = auto()  # %=
-    LESS = auto()  # <
-    LESS_EQUAL = auto()  # <=
-    LSHIFT = auto()  # <<
-    LSHIFT_ASSIGNMENT = auto()  # <<=
-    GREATER = auto()  # >
-    GREATER_EQUAL = auto()  # >=
-    RSHIFT = auto()  # >>
-    RSHIFT_ASSIGNMENT = auto()  # >>=
-    AND = auto()  # &
-    AND_ASSIGNMENT = auto()  # &=
-    OR = auto()  # |
-    OR_ASSIGNMENT = auto()  # \=
-    XOR = auto()  # ^
-    XOR_ASSIGNMENT = auto()  # ^=
-    NOT = auto()  # ~
-    COLON = auto()  # :
-    ASSIGNMENT1 = auto()  # :=
-    ASSIGNMENT2 = auto()  # =
-    EQUAL = auto()  # ==
-    NOT_EQUAL = auto()  # !=
-    LPAREN = auto()  # (
-    RPAREN = auto()  # )
-    LBRACE = auto()  # {
-    RBRACE = auto()  # }
-    LBRACKET = auto()  # [
-    RBRACKET = auto()  # ]
-    COMMA = auto()  # ,
-    PERIOD = auto()  # .
-    SEMICOLON = auto()  # ;
-    COMMENT = auto()  # #
-    SPACE = auto()
-    NEWLINE = auto()
+    EXP_ASSIGNMENT = auto()             # **=
+    DIVISION = auto()                   # /
+    FLOOR_DIVISION = auto()             # //
+    DIV_ASSIGNMENT = auto()             # /=
+    FLOOR_DIV_ASSIGNMENT = auto()       # //=
+    MODULUS = auto()                    # %
+    MODULUS_ASSIGNMENT = auto()         # %=
+    LESS = auto()                       # <
+    LESS_EQUAL = auto()                 # <=
+    LSHIFT = auto()                     # <<
+    LSHIFT_ASSIGNMENT = auto()          # <<=
+    GREATER = auto()                    # >
+    GREATER_EQUAL = auto()              # >=
+    RSHIFT = auto()                     # >>
+    RSHIFT_ASSIGNMENT = auto()          # >>=
+    AND = auto()                        # &
+    AND_ASSIGNMENT = auto()             # &=
+    OR = auto()                         # |
+    OR_ASSIGNMENT = auto()              # \=
+    XOR = auto()                        # ^
+    XOR_ASSIGNMENT = auto()             # ^=
+    NOT = auto()                        # ~
+    COLON = auto()                      # :
+    ASSIGNMENT1 = auto()                # :=
+    ASSIGNMENT2 = auto()                # =
+    EQUAL = auto()                      # ==
+    NOT_EQUAL = auto()                  # !=
+    LPAREN = auto()                     # (
+    RPAREN = auto()                     # )
+    LBRACE = auto()                     # {
+    RBRACE = auto()                     # }
+    LBRACKET = auto()                   # [
+    RBRACKET = auto()                   # ]
+    COMMA = auto()                      # ,
+    PERIOD = auto()                     # .
+    SEMICOLON = auto()                  # ;
+    SPACE = auto()                      # ' '
+    NEWLINE = auto()                    # \n
 
 
 @dataclass

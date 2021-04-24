@@ -31,44 +31,42 @@ class SymbolTable:
 
 
 class Symbol(Enum):
-    LETTER = auto()
-    ZERO = auto()
-    NUMBER = auto()
-    DIGIT = auto()
-    OCTAL = auto()
-    HEX = auto()
-    PREFIX_X = auto()
-    EQUAL = auto()  # =
-    LESS = auto()  # <
-    GREATER = auto()  # >
-    PLUS = auto()  # +
-    MINUS = auto()  # -
-    ASTERISK = auto()  # *
-    DIVISION = auto()  # /
-    MODULUS = auto()  # %
-    AMPERSAND = auto()  # &
-    PIPE = auto()  # |
-    CARET = auto()  # ^
-    TILDE = auto()  # ~
-    BANG = auto()  # !
-    LPAREN = auto()  # (
-    RPAREN = auto()  # )
-    LBRACE = auto()  # {
-    RBRACE = auto()  # }
-    LBRACKET = auto()  # [
-    RBRACKET = auto()  # ]
-    COMMA = auto()  # ,
-    PERIOD = auto()  # .
-    COLON = auto()  # :
-    SEMICOLON = auto()  # ;
-    HASH = auto()  # #
-    BACKSLASH = auto()  # \
-    SINGLE_QUOT = auto()  # '
-    DOUBLE_QUOT = auto()  # "
-    AT = auto()  # @
-    OTHER = auto()  # [^a-zA-Z0-9]
-    SPACE = auto()
-    NEWLINE = auto()
+    LETTER = auto()         # [a-zA-Z]
+    ZERO = auto()           # 0
+    NUMBER = auto()         # [1-9]
+    DIGIT = auto()          # [0-9]
+    OCTAL = auto()          # [0-7]
+    HEX = auto()            # [0-9a-fA-F]
+    PREFIX_X = auto()       # x, X
+    EQUAL = auto()          # =
+    LESS = auto()           # <
+    GREATER = auto()        # >
+    PLUS = auto()           # +
+    MINUS = auto()          # -
+    ASTERISK = auto()       # *
+    SLASH = auto()          # /
+    MODULUS = auto()        # %
+    AMPERSAND = auto()      # &
+    PIPE = auto()           # |
+    CARET = auto()          # ^
+    TILDE = auto()          # ~
+    BANG = auto()           # !
+    LPAREN = auto()         # (
+    RPAREN = auto()         # )
+    LBRACE = auto()         # {
+    RBRACE = auto()         # }
+    LBRACKET = auto()       # [
+    RBRACKET = auto()       # ]
+    COMMA = auto()          # ,
+    PERIOD = auto()         # .
+    COLON = auto()          # :
+    SEMICOLON = auto()      # ;
+    BACKSLASH = auto()      # \
+    SINGLE_QUOT = auto()    # '
+    DOUBLE_QUOT = auto()    # "
+    SPACE = auto()          # ' '
+    NEWLINE = auto()        # \n
+    OTHER = auto()          # It depends on the condition.
 
 
 symbol_table = SymbolTable()
@@ -77,7 +75,7 @@ symbol_table = SymbolTable()
 def identify_symbol(character, status):
     cur_sb = None
 
-    if bool(re.match('[a-zA-Z]', character)):
+    if bool(re.match('[a-zA-Z_]', character)):
         cur_sb = Symbol.LETTER
 
     if status == State.START:
@@ -92,7 +90,7 @@ def identify_symbol(character, status):
         elif character == '*':
             cur_sb = Symbol.ASTERISK
         elif character == '/':
-            cur_sb = Symbol.DIVISION
+            cur_sb = Symbol.SLASH
         elif character == '%':
             cur_sb = Symbol.MODULUS
         elif character == '=':
@@ -194,7 +192,7 @@ def identify_symbol(character, status):
         if character != '/' and character != '=':
             cur_sb = Symbol.OTHER
         elif character == '/':
-            cur_sb = Symbol.DIVISION
+            cur_sb = Symbol.SLASH
         elif character == '=':
             cur_sb = Symbol.EQUAL
     elif status == State.IN_LESS:
