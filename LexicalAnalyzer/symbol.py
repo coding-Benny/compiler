@@ -4,7 +4,7 @@ from state import State
 
 
 class Symbol(Enum):
-    LETTER = auto()         # [a-zA-Z]
+    LETTER = auto()         # [a-zA-Z_]
     ZERO = auto()           # 0
     NUMBER = auto()         # [1-9]
     DIGIT = auto()          # [0-9]
@@ -50,10 +50,10 @@ class SymbolTable:
         self.__szSymbol.append(s)
 
     def check_symbol(self, s: str):
-        for i, symbol in enumerate(self.__szSymbol):
-            if symbol == s:
-                return i
-        return -1
+        if s in self.__szSymbol:
+            return self.__szSymbol.index(s)
+        else:
+            return -1
 
     def number_of_symbols(self):
         return len(self.__szSymbol)
@@ -63,6 +63,9 @@ class SymbolTable:
         for i, symbol in enumerate(self.__szSymbol):
             res += '({}) {}\n'.format(i + 1, symbol)
         return res
+
+    def get_symbol_table(self):
+        return self.__szSymbol
 
 
 symbol_table = SymbolTable()
@@ -139,7 +142,7 @@ def identify_symbol(character, status):
     if status == State.IN_ID:  # identifier other
         if bool(re.match('[0-9]', character)):
             cur_sb = Symbol.DIGIT
-        if bool(re.match('[^0-9a-zA-Z]', character)):
+        elif bool(re.match('[^0-9a-zA-Z_]', character)):
             cur_sb = Symbol.OTHER
     elif status == State.IN_ZERO:
         if character.lower() == 'x':
@@ -205,9 +208,9 @@ def identify_symbol(character, status):
             cur_sb = Symbol.GREATER
         elif character == '=':
             cur_sb = Symbol.EQUAL
-    elif status in [State.IN_ASSIGNMENT, State.IN_EQUAL, State.IN_PLUS, State.IN_EXP, State.IN_FLOOR_DIV,
+    elif status in [State.IN_ASSIGN, State.IN_EQUAL, State.IN_PLUS, State.IN_EXP, State.IN_FLOOR_DIV,
                     State.IN_MODULUS, State.IN_LSHIFT, State.IN_RSHIFT, State.IN_AND, State.IN_OR, State.IN_XOR,
-                    State.IN_ASSIGNMENT, State.IN_EQUAL]:
+                    State.IN_ASSIGN, State.IN_EQUAL]:
         if character != '=':
             cur_sb = Symbol.OTHER
         else:
@@ -220,4 +223,4 @@ def insert_symbol_table(lexeme: str):
     check = symbol_table.check_symbol(lexeme)
     if check == -1:
         symbol_table.add_symbol(lexeme)
-    return symbol_table.number_of_symbols() - 1
+    return symbol_table.get_symbol_table().index(lexeme)

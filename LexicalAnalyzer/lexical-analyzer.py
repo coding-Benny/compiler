@@ -20,38 +20,38 @@ class LexicalAnalyzer:
             State.ACCEPT_OCTAL,
             State.ACCEPT_HEX,
             State.ACCEPT_PLUS,
-            State.ACCEPT_ADD_ASSIGNMENT,
+            State.ACCEPT_ADD_ASSIGN,
             State.ACCEPT_MINUS,
-            State.ACCEPT_SUB_ASSIGNMENT,
+            State.ACCEPT_SUB_ASSIGN,
             State.ACCEPT_FUNC_ANNOTATION,
             State.ACCEPT_MULTIPLICATION,
-            State.ACCEPT_MULTIPLICATION_ASSIGNMENT,
+            State.ACCEPT_MULTIPLICATION_ASSIGN,
             State.ACCEPT_EXP,
-            State.ACCEPT_EXP_ASSIGNMENT,
+            State.ACCEPT_EXP_ASSIGN,
             State.ACCEPT_DIVISION,
-            State.ACCEPT_DIVISION_ASSIGNMENT,
+            State.ACCEPT_DIVISION_ASSIGN,
             State.ACCEPT_FLOOR_DIV,
-            State.ACCEPT_FLOOR_DIV_ASSIGNMENT,
+            State.ACCEPT_FLOOR_DIV_ASSIGN,
             State.ACCEPT_MODULUS,
-            State.ACCEPT_MODULUS_ASSIGNMENT,
+            State.ACCEPT_MODULUS_ASSIGN,
             State.ACCEPT_LESS,
             State.ACCEPT_LESS_EQUAL,
             State.ACCEPT_LSHIFT,
-            State.ACCEPT_LSHIFT_ASSIGNMENT,
+            State.ACCEPT_LSHIFT_ASSIGN,
             State.ACCEPT_GREATER,
             State.ACCEPT_GREATER_EQUAL,
             State.ACCEPT_RSHIFT,
-            State.ACCEPT_RSHIFT_ASSIGNMENT,
+            State.ACCEPT_RSHIFT_ASSIGN,
             State.ACCEPT_AND,
-            State.ACCEPT_AND_ASSIGNMENT,
+            State.ACCEPT_AND_ASSIGN,
             State.ACCEPT_OR,
-            State.ACCEPT_OR_ASSIGNMENT,
+            State.ACCEPT_OR_ASSIGN,
             State.ACCEPT_XOR,
-            State.ACCEPT_XOR_ASSIGNMENT,
+            State.ACCEPT_XOR_ASSIGN,
             State.ACCEPT_NOT,
             State.ACCEPT_COLON,
-            State.ACCEPT_ASSIGNMENT1,
-            State.ACCEPT_ASSIGNMENT2,
+            State.ACCEPT_ASSIGN1,
+            State.ACCEPT_ASSIGN2,
             State.ACCEPT_NOT_EQUAL,
             State.ACCEPT_LPAREN,
             State.ACCEPT_RPAREN,
@@ -84,7 +84,7 @@ class LexicalAnalyzer:
                 Symbol.PIPE: State.IN_OR,
                 Symbol.CARET: State.IN_XOR,
                 Symbol.TILDE: State.ACCEPT_NOT,
-                Symbol.COLON: State.IN_ASSIGNMENT,
+                Symbol.COLON: State.IN_ASSIGN,
                 Symbol.BANG: State.IN_NOT,
                 Symbol.LPAREN: State.ACCEPT_LPAREN,
                 Symbol.RPAREN: State.ACCEPT_RPAREN,
@@ -123,35 +123,35 @@ class LexicalAnalyzer:
                 Symbol.OTHER: State.ACCEPT_HEX      # 0[xX][0-9a-fA-F]+
             },
             State.IN_PLUS: {  # +
-                Symbol.EQUAL: State.ACCEPT_ADD_ASSIGNMENT,  # +=
-                Symbol.OTHER: State.ACCEPT_PLUS             # +
+                Symbol.EQUAL: State.ACCEPT_ADD_ASSIGN,  # +=
+                Symbol.OTHER: State.ACCEPT_PLUS         # +
             },
             State.IN_MINUS: {  # -
-                Symbol.EQUAL: State.ACCEPT_SUB_ASSIGNMENT,      # -=
+                Symbol.EQUAL: State.ACCEPT_SUB_ASSIGN,          # -=
                 Symbol.GREATER: State.ACCEPT_FUNC_ANNOTATION,   # ->
                 Symbol.OTHER: State.ACCEPT_MINUS                # -
             },
             State.IN_MULTIPLICATION: {  # *
-                Symbol.ASTERISK: State.IN_EXP,                          # **
-                Symbol.EQUAL: State.ACCEPT_MULTIPLICATION_ASSIGNMENT,   # *=
-                Symbol.OTHER: State.ACCEPT_MULTIPLICATION               # *
+                Symbol.ASTERISK: State.IN_EXP,                      # **
+                Symbol.EQUAL: State.ACCEPT_MULTIPLICATION_ASSIGN,   # *=
+                Symbol.OTHER: State.ACCEPT_MULTIPLICATION           # *
             },
             State.IN_EXP: {  # **
-                Symbol.EQUAL: State.ACCEPT_EXP_ASSIGNMENT,  # **=
-                Symbol.OTHER: State.ACCEPT_EXP              # **
+                Symbol.EQUAL: State.ACCEPT_EXP_ASSIGN,  # **=
+                Symbol.OTHER: State.ACCEPT_EXP          # **
             },
             State.IN_DIVISION: {  # /
-                Symbol.SLASH: State.IN_FLOOR_DIV,                # //
-                Symbol.EQUAL: State.ACCEPT_DIVISION_ASSIGNMENT,  # /=
-                Symbol.OTHER: State.ACCEPT_DIVISION              # /
+                Symbol.SLASH: State.IN_FLOOR_DIV,            # //
+                Symbol.EQUAL: State.ACCEPT_DIVISION_ASSIGN,  # /=
+                Symbol.OTHER: State.ACCEPT_DIVISION          # /
             },
             State.IN_FLOOR_DIV: {  # //
-                Symbol.EQUAL: State.ACCEPT_FLOOR_DIV_ASSIGNMENT,  # //=
-                Symbol.OTHER: State.ACCEPT_FLOOR_DIV              # //
+                Symbol.EQUAL: State.ACCEPT_FLOOR_DIV_ASSIGN,  # //=
+                Symbol.OTHER: State.ACCEPT_FLOOR_DIV          # //
             },
             State.IN_MODULUS: {  # %
-                Symbol.EQUAL: State.ACCEPT_MODULUS_ASSIGNMENT,  # %=
-                Symbol.OTHER: State.ACCEPT_MODULUS              # %
+                Symbol.EQUAL: State.ACCEPT_MODULUS_ASSIGN,  # %=
+                Symbol.OTHER: State.ACCEPT_MODULUS          # %
             },
             State.IN_LESS: {  # <
                 Symbol.LESS: State.IN_LSHIFT,           # <<
@@ -159,8 +159,8 @@ class LexicalAnalyzer:
                 Symbol.OTHER: State.ACCEPT_LESS         # <
             },
             State.IN_LSHIFT: {  # <<
-                Symbol.EQUAL: State.ACCEPT_LSHIFT_ASSIGNMENT,  # <<=
-                Symbol.OTHER: State.ACCEPT_LSHIFT              # <<
+                Symbol.EQUAL: State.ACCEPT_LSHIFT_ASSIGN,  # <<=
+                Symbol.OTHER: State.ACCEPT_LSHIFT          # <<
             },
             State.IN_GREATER: {  # >
                 Symbol.GREATER: State.IN_RSHIFT,           # >>
@@ -168,28 +168,28 @@ class LexicalAnalyzer:
                 Symbol.OTHER: State.ACCEPT_GREATER         # >
             },
             State.IN_RSHIFT: {  # >>
-                Symbol.EQUAL: State.ACCEPT_RSHIFT_ASSIGNMENT,  # >>=
-                Symbol.OTHER: State.ACCEPT_RSHIFT              # >>
+                Symbol.EQUAL: State.ACCEPT_RSHIFT_ASSIGN,  # >>=
+                Symbol.OTHER: State.ACCEPT_RSHIFT          # >>
             },
             State.IN_AND: {  # &
-                Symbol.EQUAL: State.ACCEPT_AND_ASSIGNMENT,  # &=
-                Symbol.OTHER: State.ACCEPT_AND              # &
+                Symbol.EQUAL: State.ACCEPT_AND_ASSIGN,  # &=
+                Symbol.OTHER: State.ACCEPT_AND          # &
             },
             State.IN_OR: {  # |
-                Symbol.EQUAL: State.ACCEPT_OR_ASSIGNMENT,  # |=
-                Symbol.OTHER: State.ACCEPT_OR              # |
+                Symbol.EQUAL: State.ACCEPT_OR_ASSIGN,  # |=
+                Symbol.OTHER: State.ACCEPT_OR          # |
             },
             State.IN_XOR: {
-                Symbol.EQUAL: State.ACCEPT_XOR_ASSIGNMENT,  # ^=
-                Symbol.OTHER: State.ACCEPT_XOR  # ^
+                Symbol.EQUAL: State.ACCEPT_XOR_ASSIGN,  # ^=
+                Symbol.OTHER: State.ACCEPT_XOR          # ^
             },
-            State.IN_ASSIGNMENT: {  # :
-                Symbol.EQUAL: State.ACCEPT_ASSIGNMENT1,  # :=
+            State.IN_ASSIGN: {  # :
+                Symbol.EQUAL: State.ACCEPT_ASSIGN1,      # :=
                 Symbol.OTHER: State.ACCEPT_COLON         # :
             },
             State.IN_EQUAL: {  # =
                 Symbol.EQUAL: State.ACCEPT_EQUAL,       # ==
-                Symbol.OTHER: State.ACCEPT_ASSIGNMENT2  # =
+                Symbol.OTHER: State.ACCEPT_ASSIGN2      # =
             },
             State.IN_NOT: {  # !
                 Symbol.EQUAL: State.ACCEPT_NOT_EQUAL  # !=
@@ -261,82 +261,86 @@ def make_token(self, state: State):
         token.set_token(Token.EQUAL)
     elif state == State.ACCEPT_ZERO:
         token.set_token(Token.ZERO)
-        insert_literal_table(self.lexeme)
+        value = insert_literal_table(self.lexeme)
+        token.set_token_value(value + 1)
     elif state == State.ACCEPT_DECIMAL:
         token.set_token(Token.DECIMAL)
-        insert_literal_table(self.lexeme)
+        value = insert_literal_table(self.lexeme)
+        token.set_token_value(value + 1)
     elif state == State.ACCEPT_OCTAL:
         token.set_token(Token.OCTAL)
-        insert_literal_table(self.lexeme)
+        value = insert_literal_table(self.lexeme)
+        token.set_token_value(value + 1)
     elif state == State.ACCEPT_HEX:
         token.set_token(Token.HEX)
-        insert_literal_table(self.lexeme)
+        value = insert_literal_table(self.lexeme)
+        token.set_token_value(value + 1)
     elif state == State.ACCEPT_PLUS:
         token.set_token(Token.PLUS)
-    elif state == State.ACCEPT_ADD_ASSIGNMENT:
-        token.set_token(Token.ADD_ASSIGNMENT)
+    elif state == State.ACCEPT_ADD_ASSIGN:
+        token.set_token(Token.ADD_ASSIGN)
     elif state == State.ACCEPT_MINUS:
         token.set_token(Token.MINUS)
-    elif state == State.ACCEPT_SUB_ASSIGNMENT:
-        token.set_token(Token.SUB_ASSIGNMENT)
+    elif state == State.ACCEPT_SUB_ASSIGN:
+        token.set_token(Token.SUB_ASSIGN)
     elif state == State.ACCEPT_FUNC_ANNOTATION:
         token.set_token(Token.FUNC_ANNOTATION)
     elif state == State.ACCEPT_MULTIPLICATION:
         token.set_token(Token.MULTIPLICATION)
-    elif state == State.ACCEPT_MULTIPLICATION_ASSIGNMENT:
-        token.set_token(Token.MULTIPLICATION_ASSIGNMENT)
+    elif state == State.ACCEPT_MULTIPLICATION_ASSIGN:
+        token.set_token(Token.MULTIPLICATION_ASSIGN)
     elif state == State.ACCEPT_EXP:
         token.set_token(Token.EXP)
-    elif state == State.ACCEPT_EXP_ASSIGNMENT:
-        token.set_token(Token.EXP_ASSIGNMENT)
+    elif state == State.ACCEPT_EXP_ASSIGN:
+        token.set_token(Token.EXP_ASSIGN)
     elif state == State.ACCEPT_DIVISION:
         token.set_token(Token.DIVISION)
-    elif state == State.ACCEPT_DIVISION_ASSIGNMENT:
-        token.set_token(Token.DIV_ASSIGNMENT)
+    elif state == State.ACCEPT_DIVISION_ASSIGN:
+        token.set_token(Token.DIV_ASSIGN)
     elif state == State.ACCEPT_FLOOR_DIV:
         token.set_token(Token.FLOOR_DIVISION)
-    elif state == State.ACCEPT_FLOOR_DIV_ASSIGNMENT:
-        token.set_token(Token.FLOOR_DIV_ASSIGNMENT)
+    elif state == State.ACCEPT_FLOOR_DIV_ASSIGN:
+        token.set_token(Token.FLOOR_DIV_ASSIGN)
     elif state == State.ACCEPT_MODULUS:
         token.set_token(Token.MODULUS)
-    elif state == State.ACCEPT_MODULUS_ASSIGNMENT:
-        token.set_token(Token.MODULUS_ASSIGNMENT)
+    elif state == State.ACCEPT_MODULUS_ASSIGN:
+        token.set_token(Token.MODULUS_ASSIGN)
     elif state == State.ACCEPT_LESS:
         token.set_token(Token.LESS)
     elif state == State.ACCEPT_LESS_EQUAL:
         token.set_token(Token.LESS_EQUAL)
     elif state == State.ACCEPT_LSHIFT:
         token.set_token(Token.LSHIFT)
-    elif state == State.ACCEPT_LSHIFT_ASSIGNMENT:
-        token.set_token(Token.LSHIFT_ASSIGNMENT)
+    elif state == State.ACCEPT_LSHIFT_ASSIGN:
+        token.set_token(Token.LSHIFT_ASSIGN)
     elif state == State.ACCEPT_GREATER:
         token.set_token(Token.GREATER)
     elif state == State.ACCEPT_GREATER_EQUAL:
         token.set_token(Token.GREATER_EQUAL)
     elif state == State.ACCEPT_RSHIFT:
         token.set_token(Token.RSHIFT)
-    elif state == State.ACCEPT_RSHIFT_ASSIGNMENT:
-        token.set_token(Token.RSHIFT_ASSIGNMENT)
+    elif state == State.ACCEPT_RSHIFT_ASSIGN:
+        token.set_token(Token.RSHIFT_ASSIGN)
     elif state == State.ACCEPT_AND:
         token.set_token(Token.AND)
-    elif state == State.ACCEPT_AND_ASSIGNMENT:
-        token.set_token(Token.AND_ASSIGNMENT)
+    elif state == State.ACCEPT_AND_ASSIGN:
+        token.set_token(Token.AND_ASSIGN)
     elif state == State.ACCEPT_OR:
         token.set_token(Token.OR)
-    elif state == State.ACCEPT_OR_ASSIGNMENT:
-        token.set_token(Token.OR_ASSIGNMENT)
+    elif state == State.ACCEPT_OR_ASSIGN:
+        token.set_token(Token.OR_ASSIGN)
     elif state == State.ACCEPT_XOR:
         token.set_token(Token.XOR)
-    elif state == State.ACCEPT_XOR_ASSIGNMENT:
-        token.set_token(Token.XOR_ASSIGNMENT)
+    elif state == State.ACCEPT_XOR_ASSIGN:
+        token.set_token(Token.XOR_ASSIGN)
     elif state == State.ACCEPT_NOT:
         token.set_token(Token.NOT)
     elif state == State.ACCEPT_COLON:
         token.set_token(Token.COLON)
-    elif state == State.ACCEPT_ASSIGNMENT1:
-        token.set_token(Token.ASSIGNMENT1)
-    elif state == State.ACCEPT_ASSIGNMENT2:
-        token.set_token(Token.ASSIGNMENT2)
+    elif state == State.ACCEPT_ASSIGN1:
+        token.set_token(Token.ASSIGN1)
+    elif state == State.ACCEPT_ASSIGN2:
+        token.set_token(Token.ASSIGN2)
     elif state == State.ACCEPT_NOT_EQUAL:
         token.set_token(Token.NOT_EQUAL)
     elif state == State.ACCEPT_LPAREN:
@@ -359,10 +363,12 @@ def make_token(self, state: State):
         token.set_token(Token.SEMICOLON)
     elif state == State.ACCEPT_STRING1:
         token.set_token(Token.STRING1)
-        insert_literal_table(self.lexeme)
+        value = insert_literal_table(self.lexeme)
+        token.set_token_value(value + 1)
     elif state == State.ACCEPT_STRING2:
         token.set_token(Token.STRING2)
-        insert_literal_table(self.lexeme)
+        value = insert_literal_table(self.lexeme)
+        token.set_token_value(value + 1)
     elif state == State.ACCEPT_SPACE:
         token.set_token(Token.SPACE)
     elif state == State.ACCEPT_NEWLINE:

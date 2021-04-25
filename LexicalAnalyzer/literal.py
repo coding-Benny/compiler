@@ -6,10 +6,10 @@ class LiteralTable:
         self.__szLiteral.append(s)
 
     def check_literal(self, s: str):
-        for i, literal in enumerate(self.__szLiteral):
-            if literal == s:
-                return i
-        return -1
+        if s in self.__szLiteral:
+            return self.__szLiteral.index(s)
+        else:
+            return -1
 
     def number_of_literals(self):
         return len(self.__szLiteral)
@@ -20,6 +20,9 @@ class LiteralTable:
             res += '({}) {}\n'.format(i + 1, literal)
         return res
 
+    def get_literal_table(self):
+        return self.__szLiteral
+
 
 literal_table = LiteralTable()
 
@@ -28,4 +31,4 @@ def insert_literal_table(lexeme: str):
     check = literal_table.check_literal(lexeme)
     if check == -1:
         literal_table.add_literal(lexeme)
-    return literal_table.number_of_literals() - 1
+    return literal_table.get_literal_table().index(lexeme)

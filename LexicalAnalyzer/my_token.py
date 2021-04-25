@@ -10,38 +10,38 @@ class Token(Enum):
     STRING1 = auto()
     STRING2 = auto()
     PLUS = auto()                       # +
-    ADD_ASSIGNMENT = auto()             # +=
+    ADD_ASSIGN = auto()             # +=
     MINUS = auto()                      # -
     FUNC_ANNOTATION = auto()            # ->
-    SUB_ASSIGNMENT = auto()             # -=
+    SUB_ASSIGN = auto()             # -=
     MULTIPLICATION = auto()             # *
     EXP = auto()                        # **
-    MULTIPLICATION_ASSIGNMENT = auto()  # *=
-    EXP_ASSIGNMENT = auto()             # **=
+    MULTIPLICATION_ASSIGN = auto()  # *=
+    EXP_ASSIGN = auto()             # **=
     DIVISION = auto()                   # /
     FLOOR_DIVISION = auto()             # //
-    DIV_ASSIGNMENT = auto()             # /=
-    FLOOR_DIV_ASSIGNMENT = auto()       # //=
+    DIV_ASSIGN = auto()             # /=
+    FLOOR_DIV_ASSIGN = auto()       # //=
     MODULUS = auto()                    # %
-    MODULUS_ASSIGNMENT = auto()         # %=
+    MODULUS_ASSIGN = auto()         # %=
     LESS = auto()                       # <
     LESS_EQUAL = auto()                 # <=
     LSHIFT = auto()                     # <<
-    LSHIFT_ASSIGNMENT = auto()          # <<=
+    LSHIFT_ASSIGN = auto()          # <<=
     GREATER = auto()                    # >
     GREATER_EQUAL = auto()              # >=
     RSHIFT = auto()                     # >>
-    RSHIFT_ASSIGNMENT = auto()          # >>=
+    RSHIFT_ASSIGN = auto()          # >>=
     AND = auto()                        # &
-    AND_ASSIGNMENT = auto()             # &=
+    AND_ASSIGN = auto()             # &=
     OR = auto()                         # |
-    OR_ASSIGNMENT = auto()              # \=
+    OR_ASSIGN = auto()              # \=
     XOR = auto()                        # ^
-    XOR_ASSIGNMENT = auto()             # ^=
+    XOR_ASSIGN = auto()             # ^=
     NOT = auto()                        # ~
     COLON = auto()                      # :
-    ASSIGNMENT1 = auto()                # :=
-    ASSIGNMENT2 = auto()                # =
+    ASSIGN1 = auto()                # :=
+    ASSIGN2 = auto()                # =
     EQUAL = auto()                      # ==
     NOT_EQUAL = auto()                  # !=
     LPAREN = auto()                     # (
