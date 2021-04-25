@@ -1,33 +1,6 @@
 from enum import Enum, auto
-from dataclasses import dataclass
 import re
 from state import State
-
-
-@dataclass
-class SymbolTable:
-    def __init__(self):
-        self.__szSymbol: list = []
-        self.__nSymbol: int = 0
-
-    def add_symbol(self, s: str):
-        self.__szSymbol.append(s)
-        self.__nSymbol += 1
-
-    def check_symbol(self, s: str):
-        for i, symbol in enumerate(self.__szSymbol):
-            if symbol == s:
-                return i
-        return -1
-
-    def number_of_symbols(self):
-        return self.__nSymbol
-
-    def get_all_symbols(self):
-        res = ''
-        for i, symbol in enumerate(self.__szSymbol):
-            res += '({}) {}\n'.format(i + 1, symbol)
-        return res
 
 
 class Symbol(Enum):
@@ -67,6 +40,29 @@ class Symbol(Enum):
     SPACE = auto()          # ' '
     NEWLINE = auto()        # \n
     OTHER = auto()          # It depends on the condition.
+
+
+class SymbolTable:
+    def __init__(self):
+        self.__szSymbol: list = []
+
+    def add_symbol(self, s: str):
+        self.__szSymbol.append(s)
+
+    def check_symbol(self, s: str):
+        for i, symbol in enumerate(self.__szSymbol):
+            if symbol == s:
+                return i
+        return -1
+
+    def number_of_symbols(self):
+        return len(self.__szSymbol)
+
+    def get_all_symbols(self):
+        res = ''
+        for i, symbol in enumerate(self.__szSymbol):
+            res += '({}) {}\n'.format(i + 1, symbol)
+        return res
 
 
 symbol_table = SymbolTable()

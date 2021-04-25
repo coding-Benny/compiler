@@ -234,7 +234,7 @@ class LexicalAnalyzer:
             except KeyError:
                 error_occurred = True
                 error_msg = "\n!!! Error occurred because of the symbol {} !!!\n".format(symbol)
-                print(error_msg)
+                # print(error_msg)
                 break
 
 
@@ -247,7 +247,7 @@ def check_keyword(self, lexeme: str):
 
 # Generate token
 def make_token(self, state: State):
-    token = MyToken()
+    token = CurrentToken()
     if state == State.ACCEPT_ID:
         # Check if lexeme belongs a keyword.
         key_num = check_keyword(self, self.lexeme)
@@ -256,7 +256,7 @@ def make_token(self, state: State):
         else:
             token.set_token(Token.ID)
             value = insert_symbol_table(self.lexeme)
-            token.set_token_value(value)
+            token.set_token_value(value + 1)
     elif state == State.ACCEPT_EQUAL:
         token.set_token(Token.EQUAL)
     elif state == State.ACCEPT_ZERO:
@@ -369,7 +369,7 @@ def make_token(self, state: State):
         token.set_token(Token.NEWLINE)
 
     token_table.add_token(token)
-    print(self.lexeme.strip(), token.get_token(), token.get_token_value())
+    # print(self.lexeme.strip(), token.get_token(), token.get_token_value())
 
     # Initialize state and lexeme.
     self.currentState = State.START

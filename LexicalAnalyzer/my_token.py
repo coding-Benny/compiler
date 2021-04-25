@@ -1,5 +1,4 @@
 from enum import Enum, auto
-from dataclasses import dataclass
 
 
 class Token(Enum):
@@ -58,8 +57,7 @@ class Token(Enum):
     NEWLINE = auto()                    # \n
 
 
-@dataclass
-class MyToken:
+class CurrentToken:
     def __init__(self):
         self.__number: int = 0
         self.__value: int = 0
@@ -80,24 +78,21 @@ class MyToken:
             return self.__value
 
 
-@dataclass
 class TokenTable:
     def __init__(self):
         self.__pToken: list = []
-        self.__nToken: int = 0
 
-    def add_token(self, p: MyToken):
+    def add_token(self, p: CurrentToken):
         self.__pToken.append(p)
-        self.__nToken += 1
 
     def number_of_tokens(self):
-        return self.__nToken
+        return len(self.__pToken)
 
     def get_all_tokens(self):
         res = ''
         for token in self.__pToken:
             if token.get_token() != Token.NEWLINE:
-                res += '({}, {})  '.format(token.get_token(), token.get_token_value())
+                res += '({}, {}) '.format(token.get_token(), token.get_token_value())
             else:
                 res += '({}, {})\n'.format(token.get_token(), token.get_token_value())
 

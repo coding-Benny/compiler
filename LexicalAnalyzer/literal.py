@@ -1,15 +1,9 @@
-from dataclasses import dataclass
-
-
-@dataclass
 class LiteralTable:
     def __init__(self):
         self.__szLiteral: list = []
-        self.__nLiteral: int = 0
 
     def add_literal(self, s: str):
         self.__szLiteral.append(s)
-        self.__nLiteral += 1
 
     def check_literal(self, s: str):
         for i, literal in enumerate(self.__szLiteral):
@@ -18,7 +12,7 @@ class LiteralTable:
         return -1
 
     def number_of_literals(self):
-        return self.__nLiteral
+        return len(self.__szLiteral)
 
     def get_all_literals(self):
         res = ''
