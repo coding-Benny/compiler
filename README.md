@@ -32,6 +32,29 @@
   <ul>
     <li>Sample program은 negative example도 포함하도록 하여 error를 출력하는 것을 확인할 수 있어야 함</li>
     <li>데모를 통해 token이 올바르게 인식되었음을 쉽게 확인할 수 있도록 하고, 인식 과정에서 생성한 symbol table과 literal table을 보여주어야 함</li>
+    <li>처리 항목 - <b>Bold</b>: required, <i>Italic</i>: optional</li>
+    <ul>
+      <li>Special form tokens</li>
+      <ul>
+        <li><b>Keywords</b></li>
+        <li><b>Special symbols</b></li>
+      </ul>
+      <li>General form tokens</li>
+      <ul>
+        <li><b>Identifier</b></li>
+        <li>Literal/Constants</li>
+        <ul>
+          <li><b>Number</b></li>
+          <ul>
+            <li><b>Decimal</b>
+            <li><i>Octal</i>
+            <li><i>Hexdecimal</i>
+          </ul>
+          <li><i>String</i></li>
+        </ul>
+      </ul>
+    </ul>
+  </ul>
 </details>
 <details>
   <summary>실행 방법 및 화면</summary>
