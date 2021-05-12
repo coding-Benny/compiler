@@ -11,6 +11,3 @@ class ParsingTable:
 
     def get_rule(self, r: str, c: str):
         return self.table[r][c]
-
-    def get_parsing_table(self):
-        return self.table

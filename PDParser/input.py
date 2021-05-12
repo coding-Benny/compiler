@@ -1,18 +1,18 @@
 class Input:
     def __init__(self):
-        self.inputStr = ''
+        self.__inputStr = ''
 
     def set(self, s: str):
-        self.inputStr = s
+        self.__inputStr = s
 
     def get_input(self, idx: int = None):
         if idx is None:
-            return self.inputStr
+            return self.__inputStr
         else:
-            return self.inputStr[idx]
+            return self.__inputStr[idx]
 
     def is_empty(self):
-        if not self.inputStr:
+        if self.__inputStr[0] == '$' and len(self.__inputStr) == 1:
             return True
         else:
             return False
