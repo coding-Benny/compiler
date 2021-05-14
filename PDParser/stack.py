@@ -7,7 +7,7 @@ class Stack:
         for element in s[::-1]:
             self.push(element)
 
-    def push(self, c):
+    def push(self, c: str):
         self.__content.append(c)
 
     def pop(self):

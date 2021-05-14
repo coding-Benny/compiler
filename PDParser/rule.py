@@ -8,9 +8,6 @@ class Rule:
     def get_id(self):
         return self.__id
 
-    def get_RHS_len(self):
-        return len(self.__RHS)
-
     def get_a_RHS(self, idx: int):
         return self.__RHS[idx]
 
