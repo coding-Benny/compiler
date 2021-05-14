@@ -2,6 +2,8 @@ from input import *
 from stack import *
 from parsing_table import *
 
+result = ''
+
 
 class PDParser:
     def __init__(self):
@@ -17,20 +19,34 @@ class PDParser:
 
     def perform_parsing(self):
         global result
+        step, action, parse, str_parse = 1, 'expand', [], ''
         self.stack.push('S')
         while not bool(self.stack.is_empty() and self.input.is_empty()):
+            result += "    {:^2}      {:<12} {:>10}     ".format(step, ''.join(self.stack.get_stack()),
+                                                                 self.input.get_input())
             if is_non_terminal(self.stack.get_stack_top()):
                 row = self.stack.get_stack_top()
                 col = self.input.get_input(0)
-                rule = self.parsingTable.get_rule(row, col)
-                if rule is None:
-                    print("error")
-                    break
-                self.stack.expand(rule.get_RHS())
+                try:
+                    rule = self.parsingTable.get_rule(row, col)
+                    self.stack.expand(rule.get_RHS())
+                    action = 'expand'
+                    parse.append(str(rule.get_id()))
+                    str_parse = ''.join(parse)
+                    result += "{} {:<10} {}\n".format(action, rule.get_id(), str_parse)
+                except KeyError:
+                    result += "\n===================== Error: Undefined grammar  ====================="
+                    return
             else:
                 if self.stack.get_stack_top() == self.input.get_input(0):
                     self.stack.pop()
                     self.input.set(self.input.get_input()[1:])
+                    action = 'pop & advance'
+                    result += "{:<14}    {}\n".format(action, str_parse)
+            step += 1
+        action = 'accept'
+        result += "    {:^2}      {:<12} {:>10}     {:<14}    {}\n".format(step, ''.join(self.stack.get_stack()),
+                                                                           self.input.get_input(), action, str_parse)
 
     def set_input(self, s: str):
         self.input.set(s)
@@ -53,7 +69,7 @@ def show_parsing_step_header():
 
 
 def show_parsing_step():
-    return None
+    print(result)
 
 
 def main():
