@@ -40,7 +40,7 @@ class PDParser:
             else:
                 if self.stack.get_stack_top() == self.input.get_input(0):
                     self.stack.pop()
-                    self.input.set(self.input.get_input()[1:])
+                    self.input.set(self.input.increment())
                     action = 'pop & advance'
                     result += "{:<14}    {}\n".format(action, str_parse)
             step += 1

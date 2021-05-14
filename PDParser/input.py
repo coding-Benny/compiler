@@ -16,3 +16,6 @@ class Input:
             return True
         else:
             return False
+
+    def increment(self):
+        return self.__inputStr[1:]
