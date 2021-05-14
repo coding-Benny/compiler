@@ -17,11 +17,5 @@ class Rule:
     def get_RHS(self):
         return self.RHS
 
-    def get_LHS_len(self):
-        return len(self.LHS)
-
-    def get_a_LHS(self, idx: int):
-        return self.LHS[idx]
-
     def get_LHS(self):
         return self.LHS
