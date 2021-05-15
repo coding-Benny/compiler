@@ -1,8 +1,11 @@
 from input import *
 from stack import *
 from parsing_table import *
+from enum import Enum
 
 result = ''
+NonTerminal = Enum('NonTerminal', 'S A')
+Terminal = Enum('Terminal', 'a b d c')
 
 
 class PDParser:
@@ -12,28 +15,29 @@ class PDParser:
         self.parsingTable: ParsingTable = ParsingTable()
 
     def build_parsing_table(self):
-        self.parsingTable.insert_rule(Rule(1, 'S → aS'))
-        self.parsingTable.insert_rule(Rule(2, 'S → bA'))
-        self.parsingTable.insert_rule(Rule(3, 'A → d'))
-        self.parsingTable.insert_rule(Rule(4, 'A → ccA'))
+        self.parsingTable.insert_rule(NonTerminal.S, Terminal.a, Rule('S → aS'))
+        self.parsingTable.insert_rule(NonTerminal.S, Terminal.b, Rule('S → bA'))
+        self.parsingTable.insert_rule(NonTerminal.A, Terminal.d, Rule('A → d'))
+        self.parsingTable.insert_rule(NonTerminal.A, Terminal.c, Rule('A → ccA'))
 
     def perform_parsing(self):
         global result
         step, action, parse, str_parse = 1, 'expand', [], ''
-        self.stack.push('S')
+        self.stack.push(NonTerminal.S.name)
         while not bool(self.stack.is_empty() and self.input.is_empty()):
             result += "    {:^2}      {:<12} {:>10}     ".format(step, ''.join(self.stack.get_stack()),
                                                                  self.input.get_input())
             if is_non_terminal(self.stack.get_stack_top()):
-                row = self.stack.get_stack_top()
-                col = self.input.get_input(0)
+                row = NonTerminal[self.stack.get_stack_top()]
+                col = Terminal[self.input.get_input(0)]
                 try:
                     rule = self.parsingTable.get_rule(row, col)
-                    self.stack.expand(rule.get_RHS())
+                    self.stack.expand(rule)
                     action = 'expand'
-                    parse.append(str(rule.get_id()))
+                    rule_id = str(Terminal[rule[0]].value)
+                    parse.append(rule_id)
                     str_parse = ''.join(parse)
-                    result += "{} {:<10} {}\n".format(action, rule.get_id(), str_parse)
+                    result += "{} {:<10} {}\n".format(action, rule_id, str_parse)
                 except KeyError:
                     result += "\n===================== Error: Undefined grammar  ====================="
                     return
