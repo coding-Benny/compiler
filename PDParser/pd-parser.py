@@ -22,7 +22,7 @@ class PDParser:
 
     def perform_parsing(self):
         global result
-        step, action, parse, str_parse = 1, 'expand', [], ''
+        step, action, parse = 1, 'expand', ''
         self.stack.push(NonTerminal.S.name)
         while not bool(self.stack.is_empty() and self.input.is_empty()):
             result += "\t{:^2}\t\t{:<13}{:>10}\t\t".format(step, ''.join(self.stack.get_stack()),
@@ -35,9 +35,8 @@ class PDParser:
                     self.stack.expand(rule)
                     action = 'expand'
                     rule_id = str(Terminal[rule[0]].value)
-                    parse.append(rule_id)
-                    str_parse = ''.join(parse)
-                    result += "{} {:<12}{}\n".format(action, rule_id, str_parse)
+                    parse += rule_id
+                    result += "{} {:<12}{}\n".format(action, rule_id, parse)
                 except KeyError:
                     result += "\n===================== Error: Undefined grammar  ====================="
                     return
@@ -46,11 +45,11 @@ class PDParser:
                     self.stack.pop()
                     self.input.set(self.input.increment())
                     action = 'pop & advance'
-                    result += "{:<19}{}\n".format(action, str_parse)
+                    result += "{:<19}{}\n".format(action, parse)
             step += 1
         action = 'accept'
         result += "\t{:^2}\t\t{:<12}{:>11}\t\t{:<19}{:<5}\n".format(step, ''.join(self.stack.get_stack()),
-                                                                    self.input.get_input(), action, str_parse)
+                                                                    self.input.get_input(), action, parse)
 
     def set_input(self, s: str):
         self.input.set(s)
