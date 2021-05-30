@@ -7,11 +7,11 @@ step, action, result = 0, '', ''
 
 class LRParser:
     def __init__(self):
-        self.input: Input = Input()
-        self.stack: Stack = Stack()
-        self.action_table: ActionTable = ActionTable()
-        self.goto_table: GotoTable = GotoTable()
-        self.rules: dict[int, Rule] = {
+        self.__input: Input = Input()
+        self.__stack: Stack = Stack()
+        self.__action_table: ActionTable = ActionTable()
+        self.__goto_table: GotoTable = GotoTable()
+        self.__rules: dict[int, Rule] = {
             1: Rule('E → E + T'),
             2: Rule('E → T'),
             3: Rule('T → T * F'),
@@ -21,106 +21,106 @@ class LRParser:
         }
 
     def build_action_table(self):
-        self.action_table.insert_action(0, Terminal.a.value, 's5')
-        self.action_table.insert_action(0, Terminal.LPAREN.value, 's4')
-        self.action_table.insert_action(1, Terminal.PLUS.value, 's6')
-        self.action_table.insert_action(1, Terminal.DOLLAR.value, 'acc')
-        self.action_table.insert_action(2, Terminal.PLUS.value, 'r2')
-        self.action_table.insert_action(2, Terminal.ASTERISK.value, 's7')
-        self.action_table.insert_action(2, Terminal.RPAREN.value, 'r2')
-        self.action_table.insert_action(2, Terminal.DOLLAR.value, 'r2')
-        self.action_table.insert_action(3, Terminal.PLUS.value, 'r4')
-        self.action_table.insert_action(3, Terminal.ASTERISK.value, 'r4')
-        self.action_table.insert_action(3, Terminal.RPAREN.value, 'r4')
-        self.action_table.insert_action(3, Terminal.DOLLAR.value, 'r4')
-        self.action_table.insert_action(4, Terminal.a.value, 's5')
-        self.action_table.insert_action(4, Terminal.LPAREN.value, 's4')
-        self.action_table.insert_action(5, Terminal.PLUS.value, 'r6')
-        self.action_table.insert_action(5, Terminal.ASTERISK.value, 'r6')
-        self.action_table.insert_action(5, Terminal.RPAREN.value, 'r6')
-        self.action_table.insert_action(5, Terminal.DOLLAR.value, 'r6')
-        self.action_table.insert_action(6, Terminal.a.value, 's5')
-        self.action_table.insert_action(6, Terminal.LPAREN.value, 's4')
-        self.action_table.insert_action(7, Terminal.a.value, 's5')
-        self.action_table.insert_action(7, Terminal.LPAREN.value, 's4')
-        self.action_table.insert_action(8, Terminal.PLUS.value, 's6')
-        self.action_table.insert_action(8, Terminal.RPAREN.value, 's11')
-        self.action_table.insert_action(9, Terminal.PLUS.value, 'r1')
-        self.action_table.insert_action(9, Terminal.ASTERISK.value, 's7')
-        self.action_table.insert_action(9, Terminal.RPAREN.value, 'r1')
-        self.action_table.insert_action(9, Terminal.DOLLAR.value, 'r1')
-        self.action_table.insert_action(10, Terminal.PLUS.value, 'r3')
-        self.action_table.insert_action(10, Terminal.ASTERISK.value, 'r3')
-        self.action_table.insert_action(10, Terminal.RPAREN.value, 'r3')
-        self.action_table.insert_action(10, Terminal.DOLLAR.value, 'r3')
-        self.action_table.insert_action(11, Terminal.PLUS.value, 'r5')
-        self.action_table.insert_action(11, Terminal.ASTERISK.value, 'r5')
-        self.action_table.insert_action(11, Terminal.RPAREN.value, 'r5')
-        self.action_table.insert_action(11, Terminal.DOLLAR.value, 'r5')
+        self.__action_table.insert_action(0, Terminal.a.value, 's5')
+        self.__action_table.insert_action(0, Terminal.LPAREN.value, 's4')
+        self.__action_table.insert_action(1, Terminal.PLUS.value, 's6')
+        self.__action_table.insert_action(1, Terminal.DOLLAR.value, 'acc')
+        self.__action_table.insert_action(2, Terminal.PLUS.value, 'r2')
+        self.__action_table.insert_action(2, Terminal.ASTERISK.value, 's7')
+        self.__action_table.insert_action(2, Terminal.RPAREN.value, 'r2')
+        self.__action_table.insert_action(2, Terminal.DOLLAR.value, 'r2')
+        self.__action_table.insert_action(3, Terminal.PLUS.value, 'r4')
+        self.__action_table.insert_action(3, Terminal.ASTERISK.value, 'r4')
+        self.__action_table.insert_action(3, Terminal.RPAREN.value, 'r4')
+        self.__action_table.insert_action(3, Terminal.DOLLAR.value, 'r4')
+        self.__action_table.insert_action(4, Terminal.a.value, 's5')
+        self.__action_table.insert_action(4, Terminal.LPAREN.value, 's4')
+        self.__action_table.insert_action(5, Terminal.PLUS.value, 'r6')
+        self.__action_table.insert_action(5, Terminal.ASTERISK.value, 'r6')
+        self.__action_table.insert_action(5, Terminal.RPAREN.value, 'r6')
+        self.__action_table.insert_action(5, Terminal.DOLLAR.value, 'r6')
+        self.__action_table.insert_action(6, Terminal.a.value, 's5')
+        self.__action_table.insert_action(6, Terminal.LPAREN.value, 's4')
+        self.__action_table.insert_action(7, Terminal.a.value, 's5')
+        self.__action_table.insert_action(7, Terminal.LPAREN.value, 's4')
+        self.__action_table.insert_action(8, Terminal.PLUS.value, 's6')
+        self.__action_table.insert_action(8, Terminal.RPAREN.value, 's11')
+        self.__action_table.insert_action(9, Terminal.PLUS.value, 'r1')
+        self.__action_table.insert_action(9, Terminal.ASTERISK.value, 's7')
+        self.__action_table.insert_action(9, Terminal.RPAREN.value, 'r1')
+        self.__action_table.insert_action(9, Terminal.DOLLAR.value, 'r1')
+        self.__action_table.insert_action(10, Terminal.PLUS.value, 'r3')
+        self.__action_table.insert_action(10, Terminal.ASTERISK.value, 'r3')
+        self.__action_table.insert_action(10, Terminal.RPAREN.value, 'r3')
+        self.__action_table.insert_action(10, Terminal.DOLLAR.value, 'r3')
+        self.__action_table.insert_action(11, Terminal.PLUS.value, 'r5')
+        self.__action_table.insert_action(11, Terminal.ASTERISK.value, 'r5')
+        self.__action_table.insert_action(11, Terminal.RPAREN.value, 'r5')
+        self.__action_table.insert_action(11, Terminal.DOLLAR.value, 'r5')
 
     def build_goto_table(self):
-        self.goto_table.insert_goto_state(0, NonTerminal.E.value, 1)
-        self.goto_table.insert_goto_state(0, NonTerminal.T.value, 2)
-        self.goto_table.insert_goto_state(0, NonTerminal.F.value, 3)
-        self.goto_table.insert_goto_state(4, NonTerminal.E.value, 8)
-        self.goto_table.insert_goto_state(4, NonTerminal.T.value, 2)
-        self.goto_table.insert_goto_state(4, NonTerminal.F.value, 3)
-        self.goto_table.insert_goto_state(6, NonTerminal.T.value, 9)
-        self.goto_table.insert_goto_state(6, NonTerminal.F.value, 3)
-        self.goto_table.insert_goto_state(7, NonTerminal.F.value, 10)
+        self.__goto_table.insert_goto_state(0, NonTerminal.E.value, 1)
+        self.__goto_table.insert_goto_state(0, NonTerminal.T.value, 2)
+        self.__goto_table.insert_goto_state(0, NonTerminal.F.value, 3)
+        self.__goto_table.insert_goto_state(4, NonTerminal.E.value, 8)
+        self.__goto_table.insert_goto_state(4, NonTerminal.T.value, 2)
+        self.__goto_table.insert_goto_state(4, NonTerminal.F.value, 3)
+        self.__goto_table.insert_goto_state(6, NonTerminal.T.value, 9)
+        self.__goto_table.insert_goto_state(6, NonTerminal.F.value, 3)
+        self.__goto_table.insert_goto_state(7, NonTerminal.F.value, 10)
 
     def set_input(self, s: str):
-        self.input.set(s)
+        self.__input.set(s)
 
     def do_shift(self, current_char: str, num: str):
         global result
         if current_char.isupper():
             current_input = ''.join([key for key, value in terminal_dict.items() if value == current_char])
-            self.stack.push(current_input)
+            self.__stack.push(current_input)
         else:
-            self.stack.push(Terminal[current_char].name)
-        self.stack.push(num)
-        self.input.set(self.input.increment())
+            self.__stack.push(Terminal[current_char].name)
+        self.__stack.push(num)
+        self.__input.set(self.__input.increment())
         result += "shift {}\n".format(num)
 
     def do_reduce(self, num: str):
         global result, step
-        rule = self.rules.get(int(num))
+        rule = self.__rules.get(int(num))
         pop_amount = rule.get_RHS_count() * 2
         for _ in range(pop_amount):
-            self.stack.pop()
-        self.stack.push(rule.get_LHS())
+            self.__stack.pop()
+        self.__stack.push(rule.get_LHS())
 
         result += "reduce {}\n".format(num)
         step += 1
-        result += "\t{}\t\t{:<18}\t{:>20}\t".format(str(step), ''.join(self.stack.get_stack()), self.input.get_input())
+        result += "\t{}\t\t{:<18}\t{:>20}\t".format(str(step), ''.join(self.__stack.get_stack()), self.__input.get_input())
 
-        previous_state = int(self.stack.get_element(-2))
-        lhs = NonTerminal[self.stack.get_element(-1)].value
+        previous_state = int(self.__stack.get_element(-2))
+        lhs = NonTerminal[self.__stack.get_element(-1)].value
         state = self.get_next_state_from_goto_table(previous_state, lhs)
-        self.stack.push(state)
+        self.__stack.push(state)
         result += "GOTO {}\n".format(state)
 
     def get_next_state_from_goto_table(self, row: int, col: int):
-        state = str(self.goto_table.get_goto_state(row, col))
+        state = str(self.__goto_table.get_goto_state(row, col))
         return state
 
     def perform_parsing(self):
         global result, step, action
 
-        self.stack.push(str(0))
+        self.__stack.push(str(0))
         while action != 'acc':
-            result += "\t{}\t\t{:<18}\t{:>20}\t".format(str(step), ''.join(self.stack.get_stack()), self.input.get_input())
-            current_char = self.input.get_input(0)
+            result += "\t{}\t\t{:<18}\t{:>20}\t".format(str(step), ''.join(self.__stack.get_stack()), self.__input.get_input())
+            current_char = self.__input.get_input(0)
 
             try:
                 if not current_char.isalpha():
                     current_char = terminal_dict.get(current_char)
-                row = self.stack.get_stack_top()
+                row = self.__stack.get_stack_top()
                 if row.isdigit():
                     row = int(row)
                 col = Terminal[current_char].value
-                action = self.action_table.get_action_from_action_table(row, col)
+                action = self.__action_table.get_action_from_action_table(row, col)
                 if action == 'acc':
                     result += 'accept\n'
                     return
