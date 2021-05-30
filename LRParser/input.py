@@ -11,11 +11,5 @@ class Input:
         else:
             return self.__string[idx]
 
-    def is_empty(self):
-        if not self.__string:
-            return True
-        else:
-            return False
-
     def increment(self):
         return self.__string[1:]

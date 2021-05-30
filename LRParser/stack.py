@@ -1,6 +1,3 @@
-from multipledispatch import dispatch
-
-
 class Stack:
     def __init__(self):
         self.__content = []
@@ -10,13 +7,8 @@ class Stack:
         for element in s[::-1]:
             self.push(element)
 
-    @dispatch(str)
     def push(self, c: str):
         self.__content.append(c)
-
-    @dispatch(int)
-    def push(self, n: int):
-        self.__content.append(n)
 
     def pop(self):
         self.__content.pop()
