@@ -2,8 +2,7 @@ from input import *
 from stack import *
 from parsing_table import *
 from rule import *
-
-result = ''
+step, action, result = 0, '', ''
 
 
 class LRParser:
@@ -74,6 +73,7 @@ class LRParser:
         self.input.set(s)
 
     def do_shift(self, current_char: str, num: str):
+        global result
         if current_char.isupper():
             current_input = ''.join([key for key, value in terminal_dict.items() if value == current_char])
             self.stack.push(current_input)
@@ -81,58 +81,58 @@ class LRParser:
             self.stack.push(Terminal[current_char].name)
         self.stack.push(num)
         self.input.set(self.input.increment())
+        result += "shift {}\n".format(num)
 
     def do_reduce(self, num: str):
+        global result, step
         rule = self.rules.get(int(num))
         pop_amount = rule.get_RHS_count() * 2
         for _ in range(pop_amount):
             self.stack.pop()
         self.stack.push(rule.get_LHS())
 
+        result += "reduce {}\n".format(num)
+        step += 1
+        result += "\t{}\t\t{:<18}\t{:>20}\t".format(str(step), ''.join(self.stack.get_stack()), self.input.get_input())
+
+        previous_state = int(self.stack.get_element(-2))
+        lhs = NonTerminal[self.stack.get_element(-1)].value
+        state = self.get_next_state_from_goto_table(previous_state, lhs)
+        self.stack.push(state)
+        result += "GOTO {}\n".format(state)
+
     def get_next_state_from_goto_table(self, row: int, col: int):
         state = str(self.goto_table.get_goto_state(row, col))
-        self.stack.push(state)
         return state
 
     def perform_parsing(self):
-        global result
-        step, action = 0, ''
+        global result, step, action
+
         self.stack.push(str(0))
         while action != 'acc':
             result += "\t{}\t\t{:<18}\t{:>20}\t".format(str(step), ''.join(self.stack.get_stack()), self.input.get_input())
             current_char = self.input.get_input(0)
 
             try:
-                if is_terminal(self.stack.get_stack_top()):
-                    if not current_char.isalpha():
-                        current_char = terminal_dict.get(current_char)
-                    row = self.stack.get_stack_top()
-                    if row.isdigit():
-                        row = int(row)
-                    col = Terminal[current_char].value
-                    action = self.action_table.get_action_from_action_table(row, col)
-                    if action == 'acc':
-                        result += 'accept\n'
-                        return
-                    do, number = action[0:1], action[1:]
-                    if do == 's':
-                        self.do_shift(current_char, number)
-                    else:
-                        self.do_reduce(number)
-                    result += "{} {}\n".format(action_dict.get(do), number)
+                if not current_char.isalpha():
+                    current_char = terminal_dict.get(current_char)
+                row = self.stack.get_stack_top()
+                if row.isdigit():
+                    row = int(row)
+                col = Terminal[current_char].value
+                action = self.action_table.get_action_from_action_table(row, col)
+                if action == 'acc':
+                    result += 'accept\n'
+                    return
+                do, number = action[0:1], action[1:]
+                if do == 's':
+                    self.do_shift(current_char, number)
                 else:
-                    previous_state = int(self.stack.get_element(-2))
-                    lhs = NonTerminal[self.stack.get_element(-1)].value
-                    state = self.get_next_state_from_goto_table(previous_state, lhs)
-                    result += "GOTO {}\n".format(state)
+                    self.do_reduce(number)
                 step += 1
             except KeyError:
                 result += "\n===================== Error: Undefined input ====================="
                 return
-
-
-def is_terminal(c: str):
-    return not c.isupper()
 
 
 def show_parsing_step_header():

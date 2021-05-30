@@ -1,5 +1,4 @@
 from collections import defaultdict
-action_dict = {'s': 'shift', 'r': 'reduce'}
 
 
 class ActionTable:
