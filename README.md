@@ -108,3 +108,28 @@
   </li>
   </ul>
 </details>
+  
+  
+## 과제 3: PD Parser
+<details>
+  <summary>요구 사항</summary>
+  제시한 문법과 파싱 테이블을 이용하여 aabccd, bccd에 대한 구문 분석을 수행하는 predictive parser를 구현하고 실행 과정을 보이기
+  <ul>
+    <li>문법</li>
+    <ol type="1">
+      <li>S → aS</li>
+      <li>S → bA</li>
+      <li>A → d</li>
+      <li>A → ccA</li>
+    </ol>
+    <li>파싱 테이블</li>
+      <img src="https://github.com/coding-Benny/compiler/blob/main/PDParser/images/parsing-table.PNG" alt="parsing-table" width="400">
+    <li>입력: aabccd</li>
+    <li>출력</li>
+      <img src="https://github.com/coding-Benny/compiler/blob/main/PDParser/images/pd-parser-desired-result.PNG" alt="desired result" width="500">
+  </ul>
+</details>
+<details>
+  <summary>실행 화면</summary>
+    <img src="https://github.com/coding-Benny/compiler/blob/main/PDParser/images/pd-parser-result.png" alt="pd-parser result" width="500">
+</details>
