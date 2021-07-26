@@ -133,3 +133,45 @@
   <summary>실행 화면</summary>
     <img src="https://github.com/coding-Benny/compiler/blob/main/PDParser/images/pd-parser-result.png" alt="pd-parser result" width="500">
 </details>
+  
+  
+## 과제 4: LR Parser
+<details>
+  <summary>요구 사항</summary>
+  제시한 문법과 파싱 테이블을 이용하여 bottom-up parser를 구현하고 parsing 수행 결과를 보이기
+  <ul>
+    <li>Grammar</li>
+    <ol type="1">
+      <li>E → E + T</li>
+      <li>E → T</li>
+      <li>T → T * F</li>
+      <li>T → F</li>
+      <li>F → (E)</li>
+      <li>F -> id</li>
+    </ol>
+    <li>Input</li>
+    <ol type="1">
+      <li>a * a + a</li>
+      <li>a + a * a</li>
+      <li>(a + a) * a</li>
+    </ol>
+    <li>파싱 테이블</li>
+      <img src="https://github.com/coding-Benny/compiler/blob/main/LRParser/images/parsing-table.PNG" alt="parsing-table" width="400">
+    <li>입력: a * a + a</li>
+    <li>출력</li>
+      <img src="https://github.com/coding-Benny/compiler/blob/main/LRParser/images/lr-parser-desired-result-1.PNG" alt="desired result" width="500">
+      <img src="https://github.com/coding-Benny/compiler/blob/main/LRParser/images/lr-parser-desired-result-2.PNG" alt="desired result" width="500">
+  </ul>
+</details>
+<details>
+  <summary>실행 화면</summary>
+    <ol type="1">
+      <li>입력: a * a + a</li>
+        <img src="https://github.com/coding-Benny/compiler/blob/main/LRParser/images/input1-result.png" alt="input1 result" width="500">
+      <li>입력: a + a * a</li>
+        <img src="https://github.com/coding-Benny/compiler/blob/main/LRParser/images/input2-result.png" alt="input2 result" width="500">
+      <li>입력: (a + a) * a</li>
+        <img src="https://github.com/coding-Benny/compiler/blob/main/LRParser/images/input3-result.png" alt="input3 result" width="500">
+    </ol>
+</details>
+
